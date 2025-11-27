@@ -1,0 +1,315 @@
+MariaDB [(none)]> CREATE DATABASE EMPRESA_EJEMPLO;
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [(none)]> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| empresa_ejemplo    |
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| test               |
++--------------------+
+6 rows in set (0.031 sec)
+
+MariaDB [(none)]> use EMPRESA_EJEMPLO
+Database changed
+MariaDB [EMPRESA_EJEMPLO]> show tables;
+Empty set (0.001 sec)
+
+MariaDB [EMPRESA_EJEMPLO]> status
+--------------
+
+Connection id:		15
+Current database:	empresa_ejemplo
+Current user:		root@localhost
+SSL:			Not in use
+Current pager:		stdout
+Using outfile:		'C:\Temp\Practica5.txt'
+Using delimiter:	;
+Server:			MariaDB
+Server version:		10.4.32-MariaDB mariadb.org binary distribution
+Protocol version:	10
+Connection:		localhost via TCP/IP
+Server characterset:	utf8mb4
+Db     characterset:	utf8mb4
+Client characterset:	utf8mb4
+Conn.  characterset:	utf8mb4
+TCP port:		3306
+Uptime:			12 min 11 sec
+
+Threads: 6  Questions: 12  Slow queries: 0  Opens: 17  Flush tables: 1  Open tables: 10  Queries per second avg: 0.016
+--------------
+
+MariaDB [EMPRESA_EJEMPLO]> create table EMPLEADO;
+ERROR 1113 (42000): A table must have at least 1 column
+MariaDB [EMPRESA_EJEMPLO]> create table EMPLEADO (
+    -> NSS char(9) not null.
+    -> NOMBRE varchar(50).
+    -> SUELDO decimal(10,2),
+    -> ND int,
+    -> PRIMARY KEY(NSS));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '.
+NOMBRE varchar(50).
+SUELDO decimal(10,2),
+ND int,
+PRIMARY KEY(NSS))' at line 2
+MariaDB [EMPRESA_EJEMPLO]> create table EMPLEADO (
+    -> NSS char(9) not null,
+    -> NOMBRE varchar(50),
+    -> SUELDO decimal(10,2),
+    -> ND int,
+    -> PRIMARY KEY(NSS));
+Query OK, 0 rows affected (0.028 sec)
+
+MariaDB [EMPRESA_EJEMPLO]> SHOW TABLES
+    -> ;
++---------------------------+
+| Tables_in_empresa_ejemplo |
++---------------------------+
+| empleado                  |
++---------------------------+
+1 row in set (0.001 sec)
+
+MariaDB [EMPRESA_EJEMPLO]> DESCRIBE EMPLEADO;
++--------+---------------+------+-----+---------+-------+
+| Field  | Type          | Null | Key | Default | Extra |
++--------+---------------+------+-----+---------+-------+
+| NSS    | char(9)       | NO   | PRI | NULL    |       |
+| NOMBRE | varchar(50)   | YES  |     | NULL    |       |
+| SUELDO | decimal(10,2) | YES  |     | NULL    |       |
+| ND     | int(11)       | YES  |     | NULL    |       |
++--------+---------------+------+-----+---------+-------+
+4 rows in set (0.039 sec)
+
+MariaDB [EMPRESA_EJEMPLO]> SELECT*FROM EMPLEADO;
+Empty set (0.049 sec)
+
+MariaDB [EMPRESA_EJEMPLO]> SHOW CREATE TABLE EMPLEADO
+    -> ;
++----------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table    | Create Table                                                                                                                                                                                                                                          |
++----------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| EMPLEADO | CREATE TABLE `empleado` (
+  `NSS` char(9) NOT NULL,
+  `NOMBRE` varchar(50) DEFAULT NULL,
+  `SUELDO` decimal(10,2) DEFAULT NULL,
+  `ND` int(11) DEFAULT NULL,
+  PRIMARY KEY (`NSS`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci |
++----------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.000 sec)
+
+MariaDB [EMPRESA_EJEMPLO]> CREATE TABLE DEPTO(
+    -> NOMBRED VARCHAR(15) NOT NULL,
+    -> NUMEROD INT NOT NULL,
+    -> NSS_JEFE CHAR(9),
+    -> FECHA_INIC_JEFE TIMESTAMP,
+    -> PRIMARY KEY(NUMEROD),
+    -> UNIQUE(NOMBRED),
+    -> FOREIGN KEY(NSS_JEFE(
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 8
+MariaDB [EMPRESA_EJEMPLO]> CREATE TABLE DEPTO(
+    -> NOMBRED VARCHAR(15) NOT NULL, NUMEROD INT NOT NULL, NSS_JEFE CHAR(9), FECHA_INIC_JEFE TIMESTAMP,
+    -> PRIMARY KEY(NUMEROD), UNIQUE(NOMBRED), FOREIGN KEY(NSS_JEFE) REFERENCES EMPLEADO(NSS) ON UPDATE CASCADE ON DELETE SET NULL);
+Query OK, 0 rows affected (0.042 sec)
+
+MariaDB [EMPRESA_EJEMPLO]> SHOW TABLES
+    -> ;
++---------------------------+
+| Tables_in_empresa_ejemplo |
++---------------------------+
+| depto                     |
+| empleado                  |
++---------------------------+
+2 rows in set (0.001 sec)
+
+MariaDB [EMPRESA_EJEMPLO]> DESCRIBE DEPTO;
++-----------------+-------------+------+-----+---------------------+-------------------------------+
+| Field           | Type        | Null | Key | Default             | Extra                         |
++-----------------+-------------+------+-----+---------------------+-------------------------------+
+| NOMBRED         | varchar(15) | NO   | UNI | NULL                |                               |
+| NUMEROD         | int(11)     | NO   | PRI | NULL                |                               |
+| NSS_JEFE        | char(9)     | YES  | MUL | NULL                |                               |
+| FECHA_INIC_JEFE | timestamp   | NO   |     | current_timestamp() | on update current_timestamp() |
++-----------------+-------------+------+-----+---------------------+-------------------------------+
+4 rows in set (0.037 sec)
+
+MariaDB [EMPRESA_EJEMPLO]> SHOW CREATE TABLE DEPTO
+    -> ;
++-------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table | Create Table                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
++-------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| DEPTO | CREATE TABLE `depto` (
+  `NOMBRED` varchar(15) NOT NULL,
+  `NUMEROD` int(11) NOT NULL,
+  `NSS_JEFE` char(9) DEFAULT NULL,
+  `FECHA_INIC_JEFE` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`NUMEROD`),
+  UNIQUE KEY `NOMBRED` (`NOMBRED`),
+  KEY `NSS_JEFE` (`NSS_JEFE`),
+  CONSTRAINT `depto_ibfk_1` FOREIGN KEY (`NSS_JEFE`) REFERENCES `empleado` (`NSS`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci |
++-------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.001 sec)
+
+MariaDB [EMPRESA_EJEMPLO]> INSERT INTO DEPTO VALUES('CALIDAD',25,'123456789','2000-1-1');
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`empresa_ejemplo`.`depto`, CONSTRAINT `depto_ibfk_1` FOREIGN KEY (`NSS_JEFE`) REFERENCES `empleado` (`NSS`) ON DELETE SET NULL ON UPDATE CASCADE)
+MariaDB [EMPRESA_EJEMPLO]> DESCRIBE DEPTO
+    -> ;
++-----------------+-------------+------+-----+---------------------+-------------------------------+
+| Field           | Type        | Null | Key | Default             | Extra                         |
++-----------------+-------------+------+-----+---------------------+-------------------------------+
+| NOMBRED         | varchar(15) | NO   | UNI | NULL                |                               |
+| NUMEROD         | int(11)     | NO   | PRI | NULL                |                               |
+| NSS_JEFE        | char(9)     | YES  | MUL | NULL                |                               |
+| FECHA_INIC_JEFE | timestamp   | NO   |     | current_timestamp() | on update current_timestamp() |
++-----------------+-------------+------+-----+---------------------+-------------------------------+
+4 rows in set (0.019 sec)
+
+MariaDB [EMPRESA_EJEMPLO]> INSERT INTO EMPLEADO(NSS) VALUES('123456789');
+Query OK, 1 row affected (0.020 sec)
+
+MariaDB [EMPRESA_EJEMPLO]> INSERT INTO DEPTO VALUES('CALIDAD',25,'123456789','2000-1-1');
+Query OK, 1 row affected (0.021 sec)
+
+MariaDB [EMPRESA_EJEMPLO]> SELECT*FROM EMPLEADO
+    -> ;
++-----------+--------+--------+------+
+| NSS       | NOMBRE | SUELDO | ND   |
++-----------+--------+--------+------+
+| 123456789 | NULL   |   NULL | NULL |
++-----------+--------+--------+------+
+1 row in set (0.001 sec)
+
+MariaDB [EMPRESA_EJEMPLO]> SELECT *FROM DEPTO;
++---------+---------+-----------+---------------------+
+| NOMBRED | NUMEROD | NSS_JEFE  | FECHA_INIC_JEFE     |
++---------+---------+-----------+---------------------+
+| CALIDAD |      25 | 123456789 | 2000-01-01 00:00:00 |
++---------+---------+-----------+---------------------+
+1 row in set (0.001 sec)
+
+MariaDB [EMPRESA_EJEMPLO]> ALTER TABLE EMPLEADO ADD FOREIGN KEY(ND) REFERENCES DEPTO(NUMEROD) ON UPDATE CASCADE ON DELETE SET NULL;
+Query OK, 1 row affected (0.043 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+MariaDB [EMPRESA_EJEMPLO]> SELECT*FROM EMPLEADO
+    -> ;
++-----------+--------+--------+------+
+| NSS       | NOMBRE | SUELDO | ND   |
++-----------+--------+--------+------+
+| 123456789 | NULL   |   NULL | NULL |
++-----------+--------+--------+------+
+1 row in set (0.006 sec)
+
+MariaDB [EMPRESA_EJEMPLO]> SELECT*FROM DEPTO;
++---------+---------+-----------+---------------------+
+| NOMBRED | NUMEROD | NSS_JEFE  | FECHA_INIC_JEFE     |
++---------+---------+-----------+---------------------+
+| CALIDAD |      25 | 123456789 | 2000-01-01 00:00:00 |
++---------+---------+-----------+---------------------+
+1 row in set (0.001 sec)
+
+MariaDB [EMPRESA_EJEMPLO]> SELECT*FROM EMPLEADO;
++-----------+--------+--------+------+
+| NSS       | NOMBRE | SUELDO | ND   |
++-----------+--------+--------+------+
+| 123456789 | NULL   |   NULL | NULL |
++-----------+--------+--------+------+
+1 row in set (0.001 sec)
+
+MariaDB [EMPRESA_EJEMPLO]> ALTER TABLE DEPTO DROP FECHA_INIC_JEFE;
+Query OK, 0 rows affected (0.026 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [EMPRESA_EJEMPLO]> DESCRIBE DEPTO
+    -> ;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| NOMBRED  | varchar(15) | NO   | UNI | NULL    |       |
+| NUMEROD  | int(11)     | NO   | PRI | NULL    |       |
+| NSS_JEFE | char(9)     | YES  | MUL | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+3 rows in set (0.037 sec)
+
+MariaDB [EMPRESA_EJEMPLO]> ALTER TABLE DEPTO ADD FECHA_INIC_JEFE DATE;
+Query OK, 0 rows affected (0.007 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [EMPRESA_EJEMPLO]> DESCRIBE DEPTO;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| NOMBRED         | varchar(15) | NO   | UNI | NULL    |       |
+| NUMEROD         | int(11)     | NO   | PRI | NULL    |       |
+| NSS_JEFE        | char(9)     | YES  | MUL | NULL    |       |
+| FECHA_INIC_JEFE | date        | YES  |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+4 rows in set (0.038 sec)
+
+MariaDB [EMPRESA_EJEMPLO]> ALTER TABLE DEPTO ALTER FECHA_INIC_JEFE SET DEFAULT '2015-01-01';
+Query OK, 0 rows affected (0.027 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [EMPRESA_EJEMPLO]> DESCRIBE DEPTO;
++-----------------+-------------+------+-----+------------+-------+
+| Field           | Type        | Null | Key | Default    | Extra |
++-----------------+-------------+------+-----+------------+-------+
+| NOMBRED         | varchar(15) | NO   | UNI | NULL       |       |
+| NUMEROD         | int(11)     | NO   | PRI | NULL       |       |
+| NSS_JEFE        | char(9)     | YES  | MUL | NULL       |       |
+| FECHA_INIC_JEFE | date        | YES  |     | 2015-01-01 |       |
++-----------------+-------------+------+-----+------------+-------+
+4 rows in set (0.041 sec)
+
+MariaDB [EMPRESA_EJEMPLO]> INSERT INTO DEPTO(NOMBRED, NUMEROD) VALUES ('VENTAS',35);
+Query OK, 1 row affected (0.020 sec)
+
+MariaDB [EMPRESA_EJEMPLO]> SELECT*FROM DEPTO;
++---------+---------+-----------+-----------------+
+| NOMBRED | NUMEROD | NSS_JEFE  | FECHA_INIC_JEFE |
++---------+---------+-----------+-----------------+
+| CALIDAD |      25 | 123456789 | NULL            |
+| VENTAS  |      35 | NULL      | 2015-01-01      |
++---------+---------+-----------+-----------------+
+2 rows in set (0.001 sec)
+
+MariaDB [EMPRESA_EJEMPLO]> UPDATE DEPTO SET FECHA_INIC_JEFE=CURRENT_DATE WHERE NOMBRED='CALIDAD';
+Query OK, 1 row affected (0.021 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [EMPRESA_EJEMPLO]> SELECT*FROM DEPTO;
++---------+---------+-----------+-----------------+
+| NOMBRED | NUMEROD | NSS_JEFE  | FECHA_INIC_JEFE |
++---------+---------+-----------+-----------------+
+| CALIDAD |      25 | 123456789 | 2025-02-27      |
+| VENTAS  |      35 | NULL      | 2015-01-01      |
++---------+---------+-----------+-----------------+
+2 rows in set (0.001 sec)
+
+MariaDB [EMPRESA_EJEMPLO]> DELETE FROM DEPTO WHERE NOMBRED='VENTAS';
+Query OK, 1 row affected (0.020 sec)
+
+MariaDB [EMPRESA_EJEMPLO]> SELECT*FROM DEPTO;
++---------+---------+-----------+-----------------+
+| NOMBRED | NUMEROD | NSS_JEFE  | FECHA_INIC_JEFE |
++---------+---------+-----------+-----------------+
+| CALIDAD |      25 | 123456789 | 2025-02-27      |
++---------+---------+-----------+-----------------+
+1 row in set (0.001 sec)
+
+MariaDB [EMPRESA_EJEMPLO]> DELETE FROM DEPTO;
+Query OK, 1 row affected (0.021 sec)
+
+MariaDB [EMPRESA_EJEMPLO]> SELECT*FROM DEPTO;
+Empty set (0.001 sec)
+
+MariaDB [EMPRESA_EJEMPLO]> DROP DATABASE EMPRESA_EJEMPLO;
+Query OK, 2 rows affected (0.014 sec)
+
+MariaDB [(none)]> EXIT

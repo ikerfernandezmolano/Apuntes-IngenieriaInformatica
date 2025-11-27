@@ -1,0 +1,82 @@
+MariaDB [EMPRESA]> --CONSULTA A
+MariaDB [EMPRESA]> SELECT NOMBRE, APELLIDO
+    -> FROM(EMPLEADO INNER JOIN TRABAJA_EN ON NSS=NSSE) INNER JOIN PROYECTO ON NP=NUMEROP
+    -> WHERE ND=5 AND HORAS>10 AND NOMBREP='ProductoX';
++--------+----------+
+| NOMBRE | APELLIDO |
++--------+----------+
+| John   | Smith    |
+| Joyce  | English  |
++--------+----------+
+2 rows in set (0.001 sec)
+
+MariaDB [EMPRESA]> --CONSULTA B
+MariaDB [EMPRESA]> SELECT NOMBRE,APELLIDO
+    -> FROM EMPLEADO INNER JOIN DEPENDIENTE ON NSS=NSSE AND NOMBRE=NOMBRE_DEPENDIENTE;
+Empty set (0.000 sec)
+
+MariaDB [EMPRESA]> --CONSULTA C
+MariaDB [EMPRESA]> SELECT E.NOMBRE,E.APELLIDO
+    -> FROM EMPLEADO AS E INNER JOIN EMPLEADO AS JEFE ON E.NSS_SUPERV=JEFE.NSS
+    -> WHERE JEFE.NOMBRE='Franklin' AND JEFE.APELLIDO='Wong';
++--------+----------+
+| NOMBRE | APELLIDO |
++--------+----------+
+| John   | Smith    |
+| Ramesh | Narayan  |
+| Joyce  | English  |
++--------+----------+
+3 rows in set (0.003 sec)
+
+MariaDB [EMPRESA]> --CONSULTA E
+MariaDB [EMPRESA]> SELECT NOMBRE,APELLIDO,NOMBREP
+    -> FROM (EMPLEADO INNER JOIN TRABAJA_EN ON NSS=NSSE) INNER JOIN PROYECTO ON NP=NUMEROP 
+    -> ORDER BY APELLIDO ASC, NOMBREP ASC;
++----------+----------+-------------------+
+| NOMBRE   | APELLIDO | NOMBREP           |
++----------+----------+-------------------+
+| Jaime    | Borg     | Reorganizacion    |
+| Joyce    | English  | ProductoX         |
+| Joyce    | English  | ProductoY         |
+| Ahmad    | Jabbar   | Automatizacion    |
+| Ahmad    | Jabbar   | Nuevos beneficios |
+| Ramesh   | Narayan  | ProductoZ         |
+| John     | Smith    | ProductoX         |
+| John     | Smith    | ProductoY         |
+| Jennifer | Wallace  | Nuevos beneficios |
+| Jennifer | Wallace  | Reorganizacion    |
+| Franklin | Wong     | Automatizacion    |
+| Franklin | Wong     | ProductoY         |
+| Franklin | Wong     | ProductoZ         |
+| Franklin | Wong     | Reorganizacion    |
+| Alicia   | Zelaya   | Automatizacion    |
+| Alicia   | Zelaya   | Nuevos beneficios |
++----------+----------+-------------------+
+16 rows in set (0.046 sec)
+
+MariaDB [EMPRESA]> SELECT NOMBRE,APELLIDO
+    -> FROM EMPLEADO INNER JOIN TRABAJA_EN ON NSS=NSSE
+    -> WHERE NSS NOT IN(SELECT NSSE FROM TRABAJA_EN);
+Empty set (0.002 sec)
+
+MariaDB [EMPRESA]> SELECT NOMBRED,SALARIO
+    -> FROM DEPARTAMENTO INNER JOIN EMPLEADO ON NUMEROD=ND;
++----------------+----------+
+| NOMBRED        | SALARIO  |
++----------------+----------+
+| Investigacion  | 30000.00 |
+| Investigacion  | 40000.00 |
+| Administracion | 25000.00 |
+| Administracion | 43000.00 |
+| Investigacion  | 38000.00 |
+| Investigacion  | 25000.00 |
+| Administracion | 25000.00 |
+| Direccion      | 55000.00 |
++----------------+----------+
+8 rows in set (0.010 sec)
+
+MariaDB [EMPRESA]> --CONSULTA I1
+MariaDB [EMPRESA]> SELECT NOMBRE,DIRECCION
+    -> FROM(EMPLEADO INNER JOIN PROYECTO ON ND=NUMD)INNER JOIN LOCALIZACIONES_DEPT ON NUMD=NUMEROD
+    -> WHERE LOCALIZACIONP='Houston' AND NUMD NOT IN(SELECT NUMEROD FROM LOCALIZACIONES_DEPT);
+Empty set (0.002 sec)

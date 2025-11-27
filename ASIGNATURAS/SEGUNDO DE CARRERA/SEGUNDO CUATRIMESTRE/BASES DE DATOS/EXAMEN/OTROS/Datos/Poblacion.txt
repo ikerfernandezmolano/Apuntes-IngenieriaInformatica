@@ -1,0 +1,21 @@
+Población,Provincia
+Donostia-San Sebastián,Gipuzkoa
+Bilbao,Bizkaia
+Vitoria-Gasteiz,Araba
+Pamplona,Navarra
+Barakaldo,Bizkaia
+Irun,Gipuzkoa
+Santurtzi,Bizkaia
+Tudela,Navarra
+Getxo,Bizkaia
+Eibar,Gipuzkoa
+Estella,Navarra
+Zarautz,Gipuzkoa
+Basauri,Bizkaia
+Errenteria,Gipuzkoa
+Sestao,Bizkaia
+Hernani,Gipuzkoa
+Llodio,Araba
+Leioa,Bizkaia
+Tolosa,Gipuzkoa
+Bermeo,Bizkaia

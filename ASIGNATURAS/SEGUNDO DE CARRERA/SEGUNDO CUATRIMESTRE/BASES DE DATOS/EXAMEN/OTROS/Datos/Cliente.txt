@@ -1,0 +1,41 @@
+IdCliente,Nombre,Apellidos,Edad,Dirección,Población
+1,Ana,García,25,Calle Urbieta 12,Donostia-San Sebastián
+2,David,López,32,Calle Gran Vía 34,Bilbao
+3,Laura,Sánchez,28,Calle San Prudencio 5,Vitoria-Gasteiz
+4,José,Martínez,35,Calle Estafeta 7,Pamplona
+5,Marta,Rodríguez,24,Calle Autonomía 9,Barakaldo
+6,Carlos,González,31,Calle Santiago 11,Irun
+7,María,Fernández,27,Calle Muelle 13,Santurtzi
+8,Daniel,Ruiz,29,Calle Herrerías 15,Tudela
+9,Sara,López,26,Calle Algorta 17,Getxo
+10,Juan,García,33,Calle Arrate 19,Eibar
+11,Andrea,Sánchez,23,Calle San Andrés 21,Estella
+12,Pablo,Martín,30,Calle Nafarroa 23,Zarautz
+13,Alba,Rodríguez,25,Calle Ariz 25,Basauri
+14,Álvaro,González,34,Calle Bidasoa 27,Errenteria
+15,Cristina,Fernández,22,Calle La Iberia 29,Sestao
+16,Rubén,Ruiz,36,Calle Gudarien 31,Hernani
+17,Paula,López,24,Calle Lamuza 33,Llodio
+18,Alejandro,Martínez,37,Calle Estartetxe 35,Leioa
+19,Isabel,García,21,Calle Rondilla 37,Tolosa
+20,Diego,Sánchez,38,Calle Aurrekoetxea 39,Bermeo
+21,Clara,Rodríguez,20,Calle Aldapeta 41,Donostia-San Sebastián
+22,Óscar,González,39,Calle Ercilla 43,Bilbao
+23,Lucía,Fernández,19,Calle Dato 45,Vitoria-Gasteiz
+24,Adrián,Ruiz,40,Calle San Nicolás 47,Pamplona
+25,Carla,López,18,Calle Gernikako Arbola 49,Barakaldo
+26,Miguel,Martínez,41,Calle Fuenterrabía 51,Irun
+27,Emma,García,17,Calle Mamariga 53,Santurtzi
+28,Marcos,Sánchez,42,Calle Gaztambide 55,Tudela
+29,Irene,Rodríguez,16,Calle Las Arenas 57,Getxo
+30,Alberto,González,43,Calle San Juan 59,Eibar
+31,Julia,Fernández,15,Calle Mayor 61,Estella
+32,Enrique,Ruiz,44,Calle Zumalakarregi 63,Zarautz
+33,Marina,López,14,Calle Benta 65,Basauri
+34,Manuel,Martínez,45,Calle Oiartzun 67,Errenteria
+35,Eva,García,13,Calle Txabarri 69,Sestao
+36,Ángel,Sánchez,46,Calle Urbieta 71,Hernani
+37,Nuria,Rodríguez,12,Calle Areta 73,Llodio
+38,Javier,González,47,Calle Sabino Arana 75,Leioa
+39,Lara,Fernández,11,Calle San Francisco 77,Tolosa
+40,Guillermo,Ruiz,48,Calle Almike 79,Bermeo

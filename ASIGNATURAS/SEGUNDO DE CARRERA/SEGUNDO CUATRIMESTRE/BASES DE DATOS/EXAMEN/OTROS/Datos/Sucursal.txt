@@ -1,0 +1,101 @@
+IdSucursal,Población,Dirección
+1,Donostia-San Sebastián,Calle Urbieta 12
+2,Bilbao,Calle Gran Vía 34
+3,Vitoria-Gasteiz,Calle San Prudencio 5
+4,Pamplona,Calle Estafeta 7
+5,Barakaldo,Calle Autonomía 9
+6,Irun,Calle Santiago 11
+7,Santurtzi,Calle Muelle 13
+8,Tudela,Calle Herrerías 15
+9,Getxo,Calle Algorta 17
+10,Eibar,Calle San Andrés 19
+11,Estella,Calle Mayor 21
+12,Zarautz,Calle Nafarroa 23
+13,Basauri,Calle Ariz 25
+14,Errenteria,Calle Bidasoa 27
+15,Sestao,Calle La Iberia 29
+16,Hernani,Calle Gudarien 31
+17,Llodio,Calle Lamuza 33
+18,Leioa,Calle Estartetxe 35
+19,Tolosa,Calle Rondilla 37
+20,Bermeo,Calle Aurrekoetxea 39
+21,Donostia-San Sebastián,Calle Aldapeta 41
+22,Bilbao,Calle Ercilla 43
+23,Vitoria-Gasteiz,Calle Dato 45
+24,Pamplona,Calle San Nicolás 47
+25,Barakaldo,Calle Gernikako Arbola 49
+26,Irun,Calle Fuenterrabía 51
+27,Santurtzi,Calle Mamariga 53
+28,Tudela,Calle Gaztambide 55
+29,Getxo,Calle Las Arenas 57
+30,Eibar,Calle Arrate 59
+31,Estella,Calle San Andrés 61
+32,Zarautz,Calle Zumalakarregi 63
+33,Basauri,Calle Bidezabal 65
+34,Errenteria,Calle Oiartzun 67
+35,Sestao,Calle Txabarri 69
+36,Hernani,Calle Urbieta 71
+37,Llodio,Calle Areta 73
+38,Leioa,Calle Sabino Arana 75
+39,Tolosa,Calle San Francisco 77
+40,Bermeo,Calle Almike 79
+41,Donostia-San Sebastián,Calle Zabaleta 81
+42,Bilbao,Calle Etxebarria 83
+43,Vitoria-Gasteiz,Calle Florida 85
+44,Pamplona,Calle San Fermín 87
+45,Barakaldo,Calle Lutxana 89
+46,Irun,Calle Behobia 91
+47,Santurtzi,Calle Capitán Mendizabal 93
+48,Tudela,Calle Horno 95
+49,Getxo,Calle Neguri 97
+50,Eibar,Calle San Juan 99
+51,Estella,Calle Calderería 1
+52,Zarautz,Calle Munoa 3
+53,Basauri,Calle Kareaga 4
+54,Errenteria,Calle Gabierrota 6
+55,Sestao,Calle La Naval 8
+56,Hernani,Calle Zikuñaga 10
+57,Llodio,Calle Landaluze 12
+58,Leioa,Calle Artaza 14
+59,Tolosa,Calle Triano 16
+60,Bermeo,Calle Arana 18
+61,Donostia-San Sebastián,Calle Narrika 20
+62,Bilbao,Calle Licenciado Poza 22
+63,Vitoria-Gasteiz,Calle Sancho el Sabio 24
+64,Pamplona,Calle Carlos III 26
+65,Barakaldo,Calle Zaballa 28
+66,Irun,Calle Larreaundi 30
+67,Santurtzi,Calle Itsasalde 32
+68,Tudela,Calle Mercadal 34
+69,Getxo,Calle Romo 36
+70,Eibar,Calle Isasi 38
+71,Estella,Calle Ruiz de Alda 40
+72,Zarautz,Calle Musika Plaza 42
+73,Basauri,Calle Benta 44
+74,Errenteria,Calle Kaputxinoak 46
+75,Sestao,Calle Los Baños 48
+76,Hernani,Calle Gudarien 50
+77,Llodio,Calle Gardea 52
+78,Leioa,Calle Udondo 54
+79,Tolosa,Calle San Blas 56
+80,Bermeo,Calle Lamera 58
+81,Donostia-San Sebastián,Calle Garibai 60
+82,Bilbao,Calle Abando 62
+83,Vitoria-Gasteiz,Calle Postas 64
+84,Pamplona,Calle Navas de Tolosa 66
+85,Barakaldo,Calle Rontegi 68
+86,Irun,Calle San Marcial 70
+87,Santurtzi,Calle Cabieces 72
+88,Tudela,Calle Magallón 74
+89,Getxo,Calle Algorta 76
+90,Eibar,Calle Bista Eder 78
+91,Estella,Calle Yerri 80
+92,Zarautz,Calle Torrea 82
+93,Basauri,Calle Aragón 84
+94,Errenteria,Calle Oarso 86
+95,Sestao,Calle La Iberia 88
+96,Hernani,Calle Zikuñaga 90
+97,Llodio,Calle Landaluze 92
+98,Leioa,Calle Artaza 94
+99,Tolosa,Calle Triano 96
+100,Bermeo,Calle Arana 98

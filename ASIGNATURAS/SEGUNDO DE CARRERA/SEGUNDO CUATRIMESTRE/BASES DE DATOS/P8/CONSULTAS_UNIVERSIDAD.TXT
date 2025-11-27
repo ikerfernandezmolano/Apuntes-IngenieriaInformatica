@@ -1,0 +1,64 @@
+MariaDB [UNIVERSIDAD]> --CONSULTA A
+MariaDB [UNIVERSIDAD]> SELECT NOMBRE
+    -> FROM ALUMNO 
+    -> WHERE ANIO=1;
++--------+
+| NOMBRE |
++--------+
+| Smith  |
+| Juan   |
++--------+
+2 rows in set (0.001 sec)
+
+MariaDB [UNIVERSIDAD]> --CONSULTA B
+MariaDB [UNIVERSIDAD]> SELECT NOMBRE_CURSO
+    -> FROM CURSO NATURAL JOIN SECCION
+    -> WHERE PROFESOR='Anderson' AND ANIO IN(1998,1999);
++--------------------------+
+| NOMBRE_CURSO             |
++--------------------------+
+| Introd. a la computacion |
+| Introd. a la computacion |
++--------------------------+
+2 rows in set (0.001 sec)
+
+MariaDB [UNIVERSIDAD]> --CONSULTA C
+MariaDB [UNIVERSIDAD]> SELECT IDENTIFICADOR_SECCION,CODIGO_CURSO,SEMESTRE,ANIO,COUNT(CODIGO_ALUMNO) FROM SECCION NATURAL JOIN INFORME_CALIFICACIONES WHERE PROFESOR='Anderson' GROUP BY IDENTIFICADOR_SECCION;
++-----------------------+--------------+----------+------+----------------------+
+| IDENTIFICADOR_SECCION | CODIGO_CURSO | SEMESTRE | ANIO | COUNT(CODIGO_ALUMNO) |
++-----------------------+--------------+----------+------+----------------------+
+|                    92 | CS1310       | Otonio   | 1998 |                    1 |
+|                   119 | CS1310       | Otonio   | 1999 |                    1 |
++-----------------------+--------------+----------+------+----------------------+
+2 rows in set (0.002 sec)
+
+MariaDB [UNIVERSIDAD]> --CONSULTA D
+MariaDB [UNIVERSIDAD]> SELECT NOMBRE,CODIGO_CURSO,CREDITOS,SEMESTRE,S.ANIO,CALIFICACION FROM((ALUMNO AS A NATURAL JOIN INFORME_CALIFICACIONES) INNER JOIN SECCION AS S ON S.IDENTIFICADOR_SECCION=INFORME_CALIFICACIONES.IDENTIFICADOR_SECCION) NATURAL JOIN CURSO WHERE A.ANIO=1 AND ESPECIALIDAD='CS' AND CALIFICACION IN('A','B','C');
++--------+--------------+----------+----------+------+--------------+
+| NOMBRE | CODIGO_CURSO | CREDITOS | SEMESTRE | ANIO | CALIFICACION |
++--------+--------------+----------+----------+------+--------------+
+| Smith  | MATE2410     |        3 | Otonio   | 1999 | B            |
+| Juan   | MATE2410     |        3 | Otonio   | 1999 | A            |
+| Smith  | CS1310       |        4 | Otonio   | 1999 | C            |
+| Juan   | CS3380       |        6 | Otonio   | 1999 | A            |
++--------+--------------+----------+----------+------+--------------+
+4 rows in set (0.002 sec)
+
+MariaDB [UNIVERSIDAD]> --CONSULTA E
+MariaDB [UNIVERSIDAD]> SELECT DISTINCT NOMBRE, ESPECIALIDAD FROM INFORME_CALIFICACIONES NATURAL JOIN ALUMNO WHERE CODIGO_ALUMNO NOT IN(SELECT CODIGO_ALUMNO FROM INFORME_CALIFICACIONES WHERE CALIFICACION<>'A'); 
++--------+--------------+
+| NOMBRE | ESPECIALIDAD |
++--------+--------------+
+| Juan   | CS           |
++--------+--------------+
+1 row in set (0.002 sec)
+
+MariaDB [UNIVERSIDAD]> --CONSULTA F
+MariaDB [UNIVERSIDAD]> SELECT DISTINCT NOMBRE, ESPECIALIDAD FROM INFORME_CALIFICACIONES NATURAL JOIN ALUMNO WHERE CODIGO_ALUMNO NOT IN(SELECT CODIGO_ALUMNO FROM INFORME_CALIFICACIONES WHERE CALIFICACION='A');
++--------+--------------+
+| NOMBRE | ESPECIALIDAD |
++--------+--------------+
+| Smith  | CS           |
+| Pepe   | IT           |
++--------+--------------+
+2 rows in set (0.001 sec)
