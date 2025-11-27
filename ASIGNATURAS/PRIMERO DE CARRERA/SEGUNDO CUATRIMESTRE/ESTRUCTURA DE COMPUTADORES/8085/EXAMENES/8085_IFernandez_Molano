@@ -1,0 +1,39 @@
+inicio:
+lxi H,9100h    ;Se inicializa el par HL con 9100h
+mvi C,04h      ;Se inicializa C con 4
+JMP bucle      ;Salta al bucle
+
+error:
+out 03         ;Saca por el puerto 03 el valor FFh
+HLT            ;Finaliza el programa
+
+div4_03:
+rar            ;Divide entre dos
+rar            ;Divide entre dos
+out 03h        ;Saca por el puerto 03 la media
+ret
+
+bucle:
+in 01h         ;Espera a que haya un 01h en el puerto 01
+cpi 01h
+jnz bucle
+in 02h	    ;Coge el valor de puerto 02
+cpi FFh        
+cz error       ;Si el valor es FFh llama a error
+mov M,A        ;Mueve el valor del acumulador a M
+inx H
+dcr C          ;Decrementa C
+jnz bucle
+dcx H          ;Prepara el par HL desde 9003
+mvi C,03h      ;Pone C a 03h
+jmp suma
+
+suma:
+dcx h          
+add m          ;Suma el valor de M con el acumulador
+dcr c
+jnz suma
+call div4_03
+jmp inicio
+
+

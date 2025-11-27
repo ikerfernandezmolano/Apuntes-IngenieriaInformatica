@@ -1,0 +1,25 @@
+call inicio
+
+inicio:
+MVI B,03h
+LXI H,9000h
+
+bucle:
+MVI A,43
+CMP M
+JZ correcta
+DCR B
+JNZ bucle
+MVI A,01h
+CALL retencion
+OUT 02h
+HLT
+
+correcta:
+LXI H, 9100h
+MOV A,M
+out 01h
+HLT
+
+retencion:
+RET

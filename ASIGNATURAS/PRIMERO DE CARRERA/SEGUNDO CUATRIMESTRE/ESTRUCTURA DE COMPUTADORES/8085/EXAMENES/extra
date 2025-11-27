@@ -1,0 +1,17 @@
+LXI H,9000h
+LXI D,9010h
+MVI C,0Ah
+
+bucle:
+LDAX DE
+CMP M
+CNZ noiguales
+INR B
+
+noiguales:
+INX H
+INX D
+DCR C
+JNZ bucle
+MOV A,B
+STA 9100h
