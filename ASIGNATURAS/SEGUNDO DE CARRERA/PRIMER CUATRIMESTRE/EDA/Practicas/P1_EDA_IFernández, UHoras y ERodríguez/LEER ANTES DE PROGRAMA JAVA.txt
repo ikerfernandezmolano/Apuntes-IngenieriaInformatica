@@ -1,0 +1,3 @@
+Debido a que eGela tiene una limitación de peso al subir archivos a las entregas, 
+la carpeta de "datuak-2024-2025" está vacía. Si se quiere probar el código habrá
+que meter los ficheros pertinentes manualmente. Así todo funcionará con normalidad.
