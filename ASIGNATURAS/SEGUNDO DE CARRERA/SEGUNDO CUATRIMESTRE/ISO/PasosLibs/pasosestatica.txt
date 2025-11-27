@@ -1,0 +1,9 @@
+cd /home/$USER/practicaC/fuentes
+gcc -o area.o -c area.c -I../include
+gcc -o aritmetica.o -c aritmetica.c
+
+ar -rv ../librerias/libestatica.a area.o aritmetica.o
+ranlib ../librerias/libestatica.a
+nm -s ../librerias/libestatica.a
+gcc -I../include -L../librerias examen.c -lestatica -o examen -static
+./examen
