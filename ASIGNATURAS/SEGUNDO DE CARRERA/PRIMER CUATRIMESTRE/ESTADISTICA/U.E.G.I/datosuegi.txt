@@ -1,0 +1,36 @@
+Vehículo	Coste€	ContaminaciónCO2(kg/h)	Dimensiones(m2)	Índice de accidentes(0-100)	Coste por cliente(€)	Número de pasajeros	Capacidad de carga(kg)	Velocidad(km/h)	Número de ruedas
+Coche	23750	10	7	70		5	200	120	4
+Coche deportivo	76000	15	8	85		2	100	200	4
+Bus	285000	25	30	40	1.43	50		80	6
+Metro (vagón)	9500000	5	75	10	1.19	200		80	8
+Tren	14250000	20	80	15	1.90	400	25000	300	8
+Patín eléctrico	380	0.02	0.2	80		1		25	2
+Motocicleta	4750	6	3	90		2	50	100	2
+Bicicleta	285	0	1.5	60		1	25	20	2
+Bici eléctrica	800	0.05	1.5	50		1		25	2
+Furgoneta	33250	12	10	65		8	1500	100	4
+Camión	114000	50	40	50		2	25000	90	4
+Barco (pasajeros)	23750000	300	2500	20	190	3000		30	0	
+Barco (carga)	23750000	300	2500	20		25	100000	25	0
+Avión (comercial)	95000000	400	1225	5	95	200		800	10
+Scooter (eléctrico)	300	0.01	0.3	70		1		25	2
+Camión de reparto	90000	40	25	45		3	10000	80	6
+Autobús escolar	120000	20	40	30	2.50	40		60	6
+Taxi	30000	12	10	65	3.00	4		100	4
+Monopatín	150	0	0.5	75		1		20	2
+Vehículo híbrido	30000	5	7	50		5	200	150	2
+Motocicleta cruiser	10000	8	4	80		2	100	130	2
+Motocicleta deportiva	12000	10	3.5	85		2	80	180	2
+Furgoneta de carga	45000	15	12	55		3	3500	90	4
+Camión cisterna	150000	60	35	45		2	30000	80	10
+Autocaravana	50000	12	20	50		4	1000	90	6
+Quad	12000	8	5	70		2	150	100	4
+Tranvía	2000000	10	40	5	1.20	100		50	8
+Ferry	6000000	80	150	15	15.00	200		25	0
+Autobús de doble piso	250000	30	50	20	4.00	80		60	10
+Buggie	5000	0	2.5	60		2		25	4
+Coche eléctrico	30000	0	8	50		5	400	160	4
+Coche de carreras	150000	30	6	90		2	50	250	4
+Limusina	100000	20	25	50	10	8	500	150	4
+Caminoneta	35000	18	11	65	3	4	1000	120	4
+Coche grúa	70000	25	20	45	5	2	5000	80	6

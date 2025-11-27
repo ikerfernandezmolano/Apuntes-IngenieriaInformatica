@@ -1,0 +1,121 @@
+#### EJERCICIOS de CLASE
+
+#EJERCICIO Nº1 #Intro RStudio
+
+#EJERCICIO Nº2 #Uso como calculadora
+#Apartado a
+((1+2)/(3+4))^2
+#Apartado b
+E=exp(1)
+sqrt(E^2+log2(3))
+
+#Apartado c
+#Apartado c.1
+factorial(21)
+#Apartado c.2
+v=c(1:21)
+prod(v)
+
+#Apartado d
+x=-1:1;x
+y=2*x^3-1
+
+y2=function(x)(2*x^3-1)
+y2(x)
+
+#EJERCICIO Nº3 #Vectores
+#Apartado a: Progresion aritmetica de los numeros del 1 al 10
+orden=1:10;orden
+
+#Apartado b: Progresion aritmetica de 71 a 77 en 10 pasos
+peso.kg=seq(71,77,length.out=10);peso.kg
+#Apartado c: Progresion aritmetica de 10 elementos a partir de 18 en 
+#pasos de 0.75
+edad.años=seq(18,by=0.75,length.out=10);edad.años
+#Apartado d: Vector con 5 "M",4 "EA" y 1 "E"
+grado=rep(c("M","EA","E"),c(5,4,1));grado
+
+#Apartado e: Convertir grado en factor
+grado.f=as.factor(grado);grado.f
+#Apartado f: Summary y str
+str(grado)
+str(grado.f)
+
+summary(grado)
+summary(grado.f)
+
+#EJERCICIO Nº4 #Operaciones con vectores
+#Apartado a: Vector con scan() dejando el ultimo elemento NA
+
+v=scan()
+
+#Apartado b: Añadir dos nuevos elementos
+v[3]
+v[7:8]=c(2.5,-3)
+v
+length(v)
+v[length(v)+1]=7
+v
+#Apartado c: Sumar los elementos del vector
+sum(v,na.rm=TRUE)
+
+#Apartado d: Posicion del NA
+which(is.na(v))
+#Apartado e: v2 eliminando NA
+vv=na.omit(v);vv
+vv
+#Apartado f: Sustituir en v el NA por un valor real, 
+pos=which(is.na(v));pos
+v2=v
+v2[pos]=c(0,0);v2
+#Apartado g: Sumar los elementos de v y v2
+
+
+#Apartado h: Sumar los elementos y obtener m?ximo y m?nimo de v y v2
+
+
+
+
+#Apartado i: Ordenar los elementos de v
+
+
+#Apartado j: elementos de v mayores que la media
+
+
+
+
+#EJERCICIO Nº5 #Matrices
+#Apartado a: Creacion de m 10x2 con edad y peso
+
+#Apartado b: Acceso a fila, columna y elemento
+
+#Apartado c: Añadir fila
+
+#Apartado d: Añadir columna como suma de las dos primeras
+
+#Apartado e: Media de todas las columnas
+
+
+#EJERCICIO Nº6 #Data frames
+#Apartado a: Crear el data frame
+df=data.frame(peso.kg,edad.años);df
+#Apartado b: Cambiar nombres a las variables
+colnames(df)=c("peso","edad");df
+#Apartado c: Analizar la estructura de df
+str(df)
+df$edad
+ed=df$edad;ed
+#Apartado d: Añadir la variable grado a df
+df=data.frame(df,grado);df
+
+#Apartado e: Añadir dos observaciones
+
+
+#Apartado f: Marco con los de Mecanica
+mec=subset(df,grado=="M");mec
+#Apartado g: mec de 20 o mas años y que pesen menos de 72
+
+#Apartado h: mec de 20 o mas años que pesen menos de 72
+
+
+#EJERCICIO Nº7 Ejercicio de importacion de datos

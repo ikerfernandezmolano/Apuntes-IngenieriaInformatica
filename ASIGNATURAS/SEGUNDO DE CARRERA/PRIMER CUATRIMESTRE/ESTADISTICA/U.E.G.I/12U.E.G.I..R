@@ -1,0 +1,175 @@
+# LEEMOS LOS DATOS 
+  datos<-read.table("datosuegi.txt",header=TRUE,sep="\t",quote="\"'",dec=".")
+  View(datos)
+  str(datos)
+  
+  Vehiculo<-datos$Vehículo
+  Coste<-datos$Coste.
+  Contaminacion<-datos$ContaminaciónCO2.kg.h.
+  Dimensiones<-datos$Dimensiones.m2.
+  IDAcc<-datos$Índice.de.accidentes.0.100.
+  CCliente<-datos$Coste.por.cliente...
+  NPasaj<-datos$Número.de.pasajeros
+  Carga<-datos$Capacidad.de.carga.kg.
+  Velocidad<-datos$Velocidad.km.h.
+  NRuedas<-datos$Número.de.ruedas
+  
+  n<-length(Vehiculo)
+  
+# Medias, medianas y modas de todas las variables
+  Medias<-round(apply(datos[2:10], 2, FUN=mean,na.rm=TRUE),4);Medias
+  Medianas<-apply(datos[2:10],2,FUN=median,na.rm=TRUE);Medianas
+  
+  calcular_moda<-function(x){
+    as.numeric(names(which.max(table(x))))
+  }
+  Modas<-apply(datos[2:10],2,FUN=calcular_moda);Modas
+  
+# Tabla de frecuencias y representación en diagrama de barras para la variable número de ruedas
+  ni<-table(NRuedas);ni
+  fi<-as.vector(round(prop.table(ni),4));fi
+  Ni<-cumsum(ni);Ni
+  Fi<-cumsum(fi);Fi
+  tabla<-data.frame(ni,fi,Ni,Fi);tabla
+  colnames(tabla)=c("Nº de Ruedas","Frec. abs.","Frec. rel.","Frec. abs. acumulada","Frec. rel. acumulada");tabla
+
+  barplot(tabla$`Frec. abs.`,main="Diagrama de barras del Nº de ruedas",xlab="Nº de Ruedas",
+          ylab="Frecuencia absoluta",col="powderblue",names.arg = c(0,2,4,6,8,10))
+  text(c(0.7,1.90,3.1,4.3,5.5,6.7),tabla$`Frec. abs.`/2,tabla$`Frec. abs.`)
+  
+# Boxplot de la variable contaminación
+  
+  Q3<-quantile(Contaminacion,0.75,type=2,na.rm=TRUE);Q3
+  Q1<-quantile(Contaminacion,0.25,type=2,na.rm=TRUE);Q1
+  IQR<-IQR(Contaminacion,na.rm=TRUE,type=2);IQR
+  H<-Q3+1.5*IQR;H
+  L<-Q3-1.5*IQR;L
+  
+  bp<-boxplot(Contaminacion,horizontal = TRUE,col="powderblue",main="Boxplot de la Contaminación",xlab="CO2kg/h")
+
+  DatAtipicos<-sort(subset(Contaminacion,Contaminacion>H|Contaminacion<L));DatAtipicos
+  # bp$out tiene la misma función 
+  
+  cat("Los vehículos: ",subset(Vehiculo,Contaminacion>H),"son atípicos respecto a la variable contaminación")
+  
+# Probabilidad de que el coche tenga una velocidad mayor que la media, 
+# dado que el indice de accidentes es mayor que la media
+
+  MediaAccidentes<-mean(IDAcc, na.rm = TRUE);MediaAccidentes
+  MediaVelocidad<-mean(Velocidad, na.rm = TRUE);MediaVelocidad
+
+  # A:"Indice de accidentes mayor que la media"
+  IdAMayMedia<-subset(Vehiculo,Velocidad>MediaAccidentes);IdAMayMedia
+  length(IdAMayMedia)
+  P_A<-length(IdAMayMedia)/n;P_A
+  
+  # B:"Velocidad mayor que la media" 
+  # ByA = B∩A
+  VIdAccMayMedia<-subset(Vehiculo,Velocidad>MediaVelocidad&IDAcc>MediaAccidentes);VIdAccMayMedia
+  P_ByA<-length(VIdAccMayMedia)/n; P_ByA
+  
+  # BdadoA= B|A -> P(B|A)= P(B∩A)/P(A)  
+  PBdadoA <-P_ByA/P_A;PBdadoA
+  
+# Proporción de Vehículos con Más de 6 Ruedas
+  n3<-length(na.omit(Contaminacion));n3
+  prop.sup.6<-length(subset(NRuedas, NRuedas > 6))/n3;prop.sup.6
+  
+# En el año 2022, según los datos del Ministerio de Industria y Turismo, 
+# en el País Vasco  762209 vehículos acudieron a la revisión a la Inspección Técnica de Vehículos (ITV). 
+# La probabilidad de que un vehículo no pase la inspección es del 15'48%. 
+  
+  n1<-762209;n1
+  # X : “Número de vehículos que no pasan la ITV” 
+  # S (éxito) : “El vehículo no pasa la ITV”  
+  P.S = 0.1548;P.S
+  # F(fracaso) : “El vehículo pasa la ITV”
+  P.F = 1-P.S;P.F
+  
+  # ¿Cuál es la probabilidad de que haya más de 120000 vehículos que no pasen la insepcción en el año 2023 si se espera la misma
+  # de vehículos? 
+  # X ~ B(762209, 0'1548)
+  # P(X>120000 | X ~ B(762209, 0'1548)) = 1 - P(X<=119999 | X ~ B(762209, 0'1548))
+  # Es un número demasiado grande para la binomial. Como:
+  n1*P.S>5
+  n1*P.F>5
+  n1>30
+  # Se aproxima a la normal.
+  # X ~ N(μ = n1*P.S = 117990, σ = √(n1*P.S*P.F) ≈ 315'7928)
+  # P(X>120000 | X ~ B(762209, 0'1548)) (corrección por cont.) ≅  P(X>119999'50 | X ~ N(117990, 315'7928)) ≅ 
+  
+  pnorm(120000,117990,315.7928,lower.tail =  FALSE)
+  
+  μ<-n1*P.S;μ
+  σ<-sqrt(n1*P.S*P.F);σ
+  z1=round(((119999.50-μ)/σ),4);z1
+  # (tipif.) ≅ P(Z=(X-μ)/σ > (119999'50-117990)/315'7928 ≈ 6'3635) = P(Z>6'3635 | Z ~ N(0,1)) = 1-P(Z<6'3635 | Z ~ N(0,1))
+  pnorm(z1,lower.tail =  FALSE)
+  
+  
+#El precio de los vehículos ha crecido durante los últimos años. El sueldo medio mensual en España el año 2023 fue de 2.273€
+#¿Cuál es la probabilidad de que un español, pueda comprar un vehículo de 4 ruedas o menos con el sueldo de 3 meses?
+  
+  sueldo.3.meses=3*2273;sueldo.3.meses
+  ruedas=subset(datos,NRuedas<=4);ruedas
+  precios=ruedas$Coste.;precios
+  media.precios=mean(precios,na.rm=TRUE);media.precios
+  
+  #Cálculo de la desviación típica
+  cvar.precios=var(precios,na.rm=TRUE);cvar.precios
+  n.precios=length(precios);n.precios
+  var.precios=((n.precios-1)/n.precios)*cvar.precios;var.precios
+  dt.precios=sqrt(var.precios);dt.precios
+  
+  #Los precios siguen una distribución normal de media 2258861 y desviación típica 6588264
+  probabilidad.precio.3meses=pnorm(sueldo.3.meses,media.precios,dt.precios);probabilidad.precio.3meses
+
+# La contaminación producida por los vehículos registrados por la DGT sigue una distribución normal N(44'1737,91.3039). 
+# ¿Cuál es la probabilidad de que en un día un vehículo contamine como mínimo 280kg/h y menos de 300kg/h?
+  
+  n2<-length(Contaminacion);n2
+  media.cont<-round(Medias[2],4);media.cont
+  S2.cont<-var(Contaminacion,na.rm=TRUE);S2.cont
+  σ.cont<-round(sqrt((n2-1)*S2.cont/n2),4);σ.cont
+  
+  # Y:"Contaminación de CO2, en kg, en una hora, producida por cualquier vehículo.
+  # P(280<X<300)=P(X<300)−P(X<280)
+  p_me300<-pnorm(300,media.cont,σ.cont);p_me300
+  p_me280<-pnorm(280,media.cont,σ.cont);p_me280
+  p<-p_me300-p_me280;p
+  
+  # Histograma de la distribución de frecuencias relativas de contaminación
+  x <- seq(min(Contaminacion,na.rm = TRUE), max(Contaminacion,na.rm = TRUE),by=1);x
+  y <- dnorm(x,media.cont,σ.cont);y
+  
+  h <- hist(Contaminacion, breaks = 15, probability = TRUE, 
+            col = "powderblue", main = "Histograma de Contaminación",
+            xlab = "Intervalos de Contaminación CO2 (kg/h)", ylab = "Densidad", xaxt = "n")
+  lines(x, y, col = "blue", lwd = 2)
+  # Agregar las etiquetas en los extremos de las barras
+  axis(side = 1, at = h$breaks, labels = h$breaks, las = 1, cex.axis = 0.8)
+  
+# Media y Varianza para la Contaminación
+  m.cont<-mean(Contaminacion, na.rm = TRUE);m.cont
+  S2.cont<-var(Contaminacion, na.rm = TRUE);S2.cont
+  S.cont<-sd(Contaminacion,na.rm = TRUE);S.cont
+  SE<-S.cont/sqrt(n3);SE
+  
+#Intervalo de confianza al 99%
+  alfa<-0.01
+  z<-qnorm(alfa/2,lower.tail = FALSE)
+  c(m.cont-z*(SE),m.cont+z*(SE))
+  
+# Calcular un intervalo para la proporción de vehículos que no pasan la ITV (p = 0.1548)
+  p<-0.1548
+  SE.p<-sqrt((p*(1-p))/n1);SE.p
+  c(p-z*SE.p,p+z*SE.p)
+  
+# Prueba de hipótesis para la media
+# verificar si la media de la contaminación es mayor a 50 kg/h
+  t.test(Contaminacion, mu=50, conf.level=0.99)
+
+# Prueba para proporción
+# comprobar si la proporción de vehículos que no pasan la ITV es distinta de 15%
+  prop.test(x=n1*P.S, n=n1, p=0.15, conf.level=0.99)
+  
