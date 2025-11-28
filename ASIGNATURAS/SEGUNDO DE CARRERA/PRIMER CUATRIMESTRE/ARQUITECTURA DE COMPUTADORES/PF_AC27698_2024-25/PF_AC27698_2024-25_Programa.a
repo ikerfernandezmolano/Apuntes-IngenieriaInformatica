@@ -1,0 +1,2131 @@
+	ESTADO 		EQU 	R0		; ESTADO 
+	EVENTO 		EQU 	R1		; EVENTO 
+;PUERTO 0
+	SEM_VERDE 	EQU 	P0.0
+	SEM_ROJO 	EQU 	P0.1
+	S_PLAT		EQU 	P0.2
+	FICHA_TIPO   	EQU 	P0.3
+	S_FICHA 	EQU 	P0.4
+	P_START		EQU 	P0.5
+	AL_START 	EQU 	P0.6
+	BPOS_START 	EQU 	P0.7
+
+;PUERTO 1
+	BMOV_FRONT	EQU 	P1.0
+	BMOV_BACK 	EQU 	P1.1
+	FC_RH_TOP 	EQU 	P1.2
+	RH_UPTO 	EQU 	P1.3
+	RH_DOWNTO 	EQU 	P1.4
+	FC_RV_BORDE 	EQU 	P1.5
+	RV_OUTTO 	EQU 	P1.6 
+	RV_INTO 	EQU 	P1.7
+
+;PUERTO 2
+	EV_AGUA 	EQU 	P2.0
+	EV_JABON 	EQU 	P2.1
+	S_CAR 		EQU 	P2.3
+	FC_RV_CENTRO 	EQU 	P2.4
+	LED_LNOR 	EQU 	P2.5
+	LED_LINT 	EQU 	P2.6
+
+;CANALES PWM
+	PWM0 		EQU 	0x00FC
+	PWM1 		EQU 	0x00FD
+	PWMP		EQU	0x00FE
+
+;ADC
+	ADCON		EQU	0x00C5
+	ADCH		EQU	0x00C6	
+	FLAG_ADC	EQU	0x0020.6	; Flag para fin de conversión
+
+;TIMERS
+	TLO		EQU	0x008A		; Parte baja del timer0
+	THO		EQU	0x008C		; Parte alta del timer0
+	TICK_1		EQU	0x0020.0	; Flag para 1 segundo
+	TICK_4		EQU	0x0020.1	; Flag para 4 segundo
+	TICK_5		EQU	0x0020.2	; Flag para 5 segundo
+	TICK_30		EQU	0x0020.3	; Flag para 30 segundo
+	TICK_60		EQU	0x0020.4	; Flag para 60 segundo
+	TICK_50ms	EQU	0x0020.5	; Flag para 50 milisegundos
+
+;CONTADORES
+	COUNT_1 	EQU	0x0021 		; CONTADOR PARA 1S 
+	COUNT_4 	EQU 	0x0022 		; CONTADOR PARA 4S 
+	COUNT_5 	EQU 	0x0023 		; CONTADOR PARA 5S 
+	COUNT_30 	EQU 	0x0024 		; CONTADOR PARA 30S 
+	COUNT_60 	EQU 	0x0025		; CONTADOR PARA 60S 
+
+;RODILLOS
+	DIST_RH_40	EQU	0x0026.0	; Flag cuando los rod. hor. estan a 40cm
+	DIST_RV_40	EQU	0x0026.1	; Flag cuando los rod. ver. estan a 40cm
+;VENTILADORES
+	VENTS_ON	EQU	0x0026.2	; Flag cuando los ventiladores estan activados
+;---------------------------------------------
+
+ORG 	0x0000
+	AJMP	INICIO
+
+;---------------------------------------------
+
+ORG 	0x000B
+TIMER0_ISR_SALTO:
+	LJMP	TIMER0_ISR
+
+;---------------------------------------------
+
+ORG 	0x0053
+ADC_ISR:
+	PUSH	ACC
+	PUSH	PSW
+	SETB	FLAG_ADC
+	ANL	ADCON,#0xEF			; Bit ADCI a 0	
+	POP	PSW
+	POP	ACC
+	RETI
+
+;---------------------------------------------
+
+ORG	0x006B
+LIMPIAR_TEMP:
+	CLR    	TCON.4             		; Para el temporizador 0
+	MOV     TL0, #0xB0          		; Parte baja para 50 ms
+    	MOV     TH0, #0x3C        		; Parte alta para 50 ms
+	MOV	COUNT_1,#20
+	MOV	COUNT_4,#4
+	MOV	COUNT_5,#5
+	MOV	COUNT_30,#6
+	MOV	COUNT_60,#2
+	CLR	TICK_1
+	CLR	TICK_4
+	CLR	TICK_5
+	CLR	TICK_30
+	CLR	TICK_60
+	RET
+
+;---------------------------------------------
+
+ORG 	0x008D
+INICIO:
+	ACALL	INICIALIZACIONES		;Inicializaciones	
+	BUCLE:
+	LCALL	MAQ_ESTADOS			;Programa principal
+	AJMP 	BUCLE				;Bucle	
+
+INICIALIZACIONES:
+	
+	MOV	COUNT_1,#20
+	MOV	COUNT_4,#4
+	MOV	COUNT_5,#5
+	MOV	COUNT_30,#6
+	MOV	COUNT_60,#2
+
+	MOV	ESTADO,#00
+	MOV	EVENTO,#00
+
+	MOV	PWM0,#0xFF			; PWM0 apagado
+	MOV	PWM1,#0xFF			; PWM1 apagado
+	MOV 	PWMP,#0x17			; PWMP = 23
+	
+	MOV     TMOD, #01H         		; Configura el Temporizador 0 en modo 1 (16 bits)
+	MOV     TL0, #0xB0          		; Parte baja para 50 ms
+    	MOV     TH0, #0x3C        		; Parte alta para 50 ms	
+	SETB    IE.1               		; Habilita interrupciones del Temporizador 0
+	
+	SETB	IE.6   				; Habilita interrupciones del ADC
+	SETB	IE.7				; Habilita interrupciones globales		
+	MOV	ADCON,#0x00
+	
+	CLR	VENTS_ON
+	
+;Configuramos los puertos
+	CLR	SEM_VERDE
+	CLR	SEM_ROJO
+	CLR	AL_START
+
+	CLR	BMOV_FRONT
+	CLR	BMOV_BACK
+	CLR	RH_UPTO
+	CLR	RH_DOWNTO
+	CLR	RV_OUTTO
+	CLR	RV_INTO
+
+	CLR	EV_AGUA
+	CLR	EV_JABON
+	CLR	LED_LNOR
+	CLR	LED_LINT
+	CLR	P2.2
+	CLR	P2.7
+
+	SETB	SEM_VERDE
+
+	CLR	DIST_RH_40
+	CLR	DIST_RV_40
+
+	RET
+
+;---------------------------------------------
+
+MAQ_ESTADOS:
+	MOV 	A, ESTADO
+	RL 	A
+	MOV 	DPTR, #LISTA_EST
+	JMP 	@A+DPTR
+
+LISTA_EST:
+	AJMP 	ESPERA_COCHE 			; Estado 0
+	AJMP 	NUEVO_COCHE 			; Estado 1
+	AJMP 	ESPERA_FICHA 			; Estado 2
+	AJMP 	INSERTADA_FICHA 		; Estado 3
+	AJMP 	COLOCADO_COCHE1 		; Estado 4
+	AJMP 	ENJABONADO 			; Estado 5
+	AJMP 	COLOCADO_COCHE2 		; Estado 6
+	AJMP 	ROD_HACIA_DENTRO_DETRAS 	; Estado 7
+	AJMP 	ROD_HACIA_FUERA_DETRAS 		; Estado 8
+	AJMP 	COL_PUENTE_SOBRE_COCHE 		; Estado 9
+	AJMP 	ROD_VDENTRO_HABAJO 		; Estado 10
+	AJMP 	ROD_HV_DIST_SEGURIDAD 		; Estado 11
+	AJMP 	ROD_HVPOSORIG 			; Estado 12
+	AJMP 	ROD_HACIA_DENTRO_DELANTE 	; Estado 13
+	AJMP 	ROD_HACIA_FUERA_DELANTE 	; Estado 14
+	AJMP 	COLOCADO_COCHE3 		; Estado 15
+	AJMP 	ACLARADO	 		; Estado 16
+	AJMP 	FIN_ACLARADO		 	; Estado 17
+	AJMP 	COLOCADO_COCHE4 		; Estado 18
+	AJMP 	SECADO		 		; Estado 19
+	AJMP 	FIN_SECADO	 		; Estado 20
+	AJMP 	FINAL_LAVADO	 		; Estado 21
+
+ESPERA_COCHE:
+	ACALL 	GN_EVEN_0
+	ACALL	MQ_EVEN_0
+	RET
+NUEVO_COCHE:
+	ACALL 	GN_EVEN_1
+	ACALL 	MQ_EVEN_1
+	RET
+ESPERA_FICHA:
+	ACALL 	GN_EVEN_2
+	ACALL 	MQ_EVEN_2
+	RET
+INSERTADA_FICHA:
+	ACALL 	GN_EVEN_3
+	ACALL 	MQ_EVEN_3
+	RET
+COLOCADO_COCHE1:
+	ACALL 	GN_EVEN_4
+	ACALL	MQ_EVEN_4
+	RET
+ENJABONADO:
+	ACALL 	GN_EVEN_5
+	ACALL	MQ_EVEN_5
+	RET
+COLOCADO_COCHE2:
+	ACALL 	GN_EVEN_6
+	ACALL	MQ_EVEN_6
+	RET
+ROD_HACIA_DENTRO_DETRAS:
+	ACALL 	GN_EVEN_7
+	ACALL	MQ_EVEN_7
+	RET
+ROD_HACIA_FUERA_DETRAS:
+	ACALL 	GN_EVEN_8
+	ACALL	MQ_EVEN_8
+	RET
+COL_PUENTE_SOBRE_COCHE:
+	ACALL 	GN_EVEN_9
+	ACALL	MQ_EVEN_9
+	RET
+ROD_VDENTRO_HABAJO:
+	ACALL 	GN_EVEN_10
+	ACALL	MQ_EVEN_10
+	RET
+ROD_HV_DIST_SEGURIDAD:
+	ACALL 	GN_EVEN_11
+	ACALL	MQ_EVEN_11
+	RET
+ROD_HVPOSORIG:
+	ACALL 	GN_EVEN_12
+	ACALL	MQ_EVEN_12
+	RET
+ROD_HACIA_DENTRO_DELANTE:
+	ACALL 	GN_EVEN_13
+	ACALL	MQ_EVEN_13
+	RET
+ROD_HACIA_FUERA_DELANTE:
+	ACALL 	GN_EVEN_14
+	ACALL	MQ_EVEN_14
+	RET
+COLOCADO_COCHE3:
+	ACALL 	GN_EVEN_15
+	ACALL	MQ_EVEN_15
+	RET
+ACLARADO:
+	ACALL 	GN_EVEN_16
+	ACALL	MQ_EVEN_16
+	RET
+FIN_ACLARADO:
+	ACALL 	GN_EVEN_17
+	ACALL	MQ_EVEN_17
+	RET
+COLOCADO_COCHE4:
+	ACALL 	GN_EVEN_18
+	ACALL	MQ_EVEN_18
+	RET
+SECADO:
+	ACALL 	GN_EVEN_19
+	LCALL	MQ_EVEN_19
+	RET
+FIN_SECADO:
+	ACALL 	GN_EVEN_20
+	LCALL	MQ_EVEN_20
+	RET
+FINAL_LAVADO:
+	ACALL 	GN_EVEN_21
+	LCALL	MQ_EVEN_21
+	RET
+;-----------------------------------
+GN_EVEN_0:
+	MOV	EVENTO,#00			; Evento nulo
+	JNB 	S_PLAT, FIN_GN_EVEN_0		
+	MOV 	EVENTO, #1			; Si S_PLAT se pone a 1, se pasa al evento 1
+	AJMP 	FIN_GN_EVEN_0
+
+FIN_GN_EVEN_0:
+	RET
+;-----------------------------------
+GN_EVEN_1:
+	MOV	EVENTO,#00			; Evento nulo
+	JNB 	S_PLAT, GN_EVEN_1_2
+	JB 	TICK_5, GN_EVEN_1_3
+	AJMP 	FIN_GN_EVEN_1
+
+GN_EVEN_1_2:
+	MOV 	EVENTO, #2			; Si S_PLAT se pone a 0, se pasa al evento 2
+	AJMP 	FIN_GN_EVEN_1
+
+GN_EVEN_1_3:
+	ACALL	LIMPIAR_TEMP
+	MOV 	EVENTO, #3			; Si han pasado 5 segundos, se pasa al evento 3
+	AJMP 	FIN_GN_EVEN_1
+
+FIN_GN_EVEN_1:
+	RET
+;-----------------------------------
+GN_EVEN_2:
+	MOV	EVENTO,#00			; Evento nulo
+	JNB 	S_PLAT, GN_EVEN_2_2
+	JB 	TICK_30, GN_EVEN_2_4
+	JB 	S_FICHA, GN_EVEN_2_5
+	AJMP 	FIN_GN_EVEN_2
+
+GN_EVEN_2_2:
+	ACALL	LIMPIAR_TEMP
+	MOV 	EVENTO, #2			; Si S_PLAT se pone a 0, se pasa al evento 2
+	AJMP 	FIN_GN_EVEN_2
+
+GN_EVEN_2_4:
+	ACALL	LIMPIAR_TEMP
+	MOV 	EVENTO, #4			; Si han pasado 30 segundos, se pasa al evento 4
+	AJMP 	FIN_GN_EVEN_2
+
+GN_EVEN_2_5:
+	ACALL	LIMPIAR_TEMP
+	MOV 	EVENTO, #5			; Si S_FICHA se pone a 1, es decir, se inserta una ficha, se pasa al evento 5
+	AJMP 	FIN_GN_EVEN_2
+
+FIN_GN_EVEN_2:
+	RET
+;-----------------------------------
+GN_EVEN_3:
+	MOV	EVENTO,#00			; Evento nulo
+	JB 	TICK_60, GN_EVEN_3_6
+	JB 	TICK_30, GN_EVEN_3_4
+	JB 	P_START, GN_EVEN_3_7
+	AJMP 	FIN_GN_EVEN_3
+
+GN_EVEN_3_4:
+	MOV 	EVENTO, #4			; Si han pasado 30 segundos, se pasa al evento 4
+	CLR	TICK_30				
+	AJMP 	FIN_GN_EVEN_3
+
+GN_EVEN_3_6:
+	ACALL	LIMPIAR_TEMP
+	MOV 	EVENTO, #6			; Si han pasado 60 segundos, se pasa al evento 6
+	AJMP 	FIN_GN_EVEN_3
+
+GN_EVEN_3_7:
+	ACALL	LIMPIAR_TEMP
+	MOV 	EVENTO, #7			; Si se pulsa el boton de START, se pasa al evento 7
+	AJMP 	FIN_GN_EVEN_3
+FIN_GN_EVEN_3:
+	RET
+;-----------------------------------
+GN_EVEN_4:
+	MOV	EVENTO,#00			; Evento nulo
+	JB 	S_CAR, GN_EVEN_4_8		
+	AJMP 	FIN_GN_EVEN_4
+GN_EVEN_4_8:
+	MOV 	EVENTO, #8			; Si se detecta el coche, se pasa al evento 8
+	AJMP	FIN_GN_EVEN_4
+
+FIN_GN_EVEN_4:
+	RET
+;-----------------------------------
+GN_EVEN_5:
+	MOV	EVENTO,#00			; Evento nulo
+	JNB 	S_CAR, GN_EVEN_5_9
+	AJMP 	FIN_GN_EVEN_5
+GN_EVEN_5_9:
+	MOV 	EVENTO, #9			; Si no se detecta el coche, se pasa al evento 9	
+	AJMP	FIN_GN_EVEN_5
+
+FIN_GN_EVEN_5:
+	RET
+;-----------------------------------
+GN_EVEN_6:
+	MOV	EVENTO,#00			; Evento nulo
+	JB 	TICK_4, GN_EVEN_6_10
+	AJMP 	FIN_GN_EVEN_6
+GN_EVEN_6_10:
+	ACALL	LIMPIAR_TEMP
+	MOV 	EVENTO, #10			; Si han pasado 4 segundos, se pasa al evento 10
+	AJMP 	FIN_GN_EVEN_6
+FIN_GN_EVEN_6:
+	RET
+;-----------------------------------
+GN_EVEN_7:
+	MOV	EVENTO,#00			; Evento nulo
+	JNB 	FC_RV_CENTRO, FIN_GN_EVEN_7
+	MOV 	EVENTO, #11			; Si los rodillos verticales estan en el centro, se pasa al evento 11
+	AJMP 	FIN_GN_EVEN_7
+
+FIN_GN_EVEN_7:
+	RET
+;-----------------------------------
+GN_EVEN_8:
+	MOV	EVENTO,#00			; Evento nulo
+	JNB 	FC_RV_BORDE, FIN_GN_EVEN_8
+	MOV 	EVENTO, #12			; Si los rodillos verticales estan en el borde, se pasa al evento 12
+	AJMP 	FIN_GN_EVEN_8
+
+FIN_GN_EVEN_8:
+	RET
+;-----------------------------------
+GN_EVEN_9:
+	MOV	EVENTO,#00			; Evento nulo
+	JNB 	S_CAR, FIN_GN_EVEN_9
+	MOV 	EVENTO, #8			; Si se detecta el coche, se pasa al evento 8
+	AJMP 	FIN_GN_EVEN_9
+
+FIN_GN_EVEN_9:
+	RET
+;-----------------------------------
+GN_EVEN_10:
+	SETB   	TCON.4 
+	MOV	EVENTO,#00			; Evento nulo
+	ACALL 	DIST_RH
+	ACALL	DIST_RV
+	JNB	DIST_RH_40,FIN_GN_EVEN_10
+	JNB	DIST_RV_40,FIN_GN_EVEN_10
+	MOV	EVENTO,#15			; Si los rod. ver. y hor. estan a 40cm o menos, se pasa al evento 13
+	AJMP	FIN_GN_EVEN_10
+
+DIST_RH:
+	JB	DIST_RH_40,VOLVER		; Si los rodillos horizontales ya estan a 40cm sale de la rutina
+	ANL	ADCON,#0x00
+	ORL	ADCON,#0x08     		; Inicio de una nueva conversion
+	JNB	FLAG_ADC,$			; Esperar a que FLAG_ADC sea 1
+	CLR	FLAG_ADC
+	JNB	TICK_50ms,$			; Espera 50ms
+	CLR	TICK_50ms
+	CLR	C
+	MOV	A,ADCH			
+	SUBB	A,#0x66				; Se calcula que la distancia del rod. horizontal sea exactamente 40cm
+	JZ	SALTAR1
+	JNC	VOLVER				; Si no esta a 40cm o menos, sale de la rutina
+SALTAR1:
+	SETB	DIST_RH_40
+	MOV	EVENTO,#13
+	RET
+	
+DIST_RV:
+	JB	DIST_RV_40,VOLVER		; Si los rodillos verticales ya estan a 40cm sale de la rutina
+	ANL	ADCON,#0x00
+	ORL	ADCON,#0x09
+	JNB	FLAG_ADC,$			; Esperar a que FLAG_ADC sea 1
+	CLR	FLAG_ADC
+	JNB	TICK_50ms,$			; Espera 50ms
+	CLR	TICK_50ms
+	CLR	C
+	MOV	A,ADCH
+	SUBB	A,#0x66				; Se calcula que la distancia del rod. vertical sea exactamente 40cm
+	JZ	SALTAR2
+	JNC	VOLVER				; Si no esta a 40cm o menos, sale de la rutina
+SALTAR2:
+	SETB	DIST_RV_40
+	MOV	EVENTO,#14
+	RET
+
+VOLVER:
+	RET
+
+FIN_GN_EVEN_10:
+	ACALL	LIMPIAR_TEMP
+	RET
+;-----------------------------------
+GN_EVEN_11:
+	MOV	EVENTO,#00			; Evento nulo
+	SETB   	TCON.4 
+	ACALL 	GN_EVEN_11_16_17
+	ACALL 	GN_EVEN_11_18_19
+	JB	S_CAR,FIN_GN_EVEN_11
+	MOV	EVENTO,#9			; Si no se detecta el coche, se pasa al evento 9
+	AJMP 	FIN_GN_EVEN_11
+GN_EVEN_11_16_17:
+	ANL	ADCON,#0x00
+	ORL	ADCON,#0x09			; Inicio de una nueva conversion en el puerto P5.1
+	JNB	FLAG_ADC,$			; Esperar a que FLAG_ADC sea 1
+	CLR	FLAG_ADC
+	JNB	TICK_50ms,$			; Espera 50ms
+	CLR	TICK_50ms
+	CLR	C
+	MOV	A,ADCH
+	SUBB	A,#0x60				; Valor para 37,5cm
+	JC	GN_EVEN_11_14			; Si es negativo es que esta a una distancia menor de 37,5cm
+	CLR	C
+	MOV	A,ADCH
+	SUBB	A,#0x6C				; Valor para 42,5cm
+	JNC	GN_EVEN_11_15			; Si es positivo es que esta a una distancia mayor de 42,5cm
+	RET
+GN_EVEN_11_14:
+	MOV	EVENTO,#16
+	RET
+GN_EVEN_11_15:
+	MOV	EVENTO,#17
+	RET
+GN_EVEN_11_18_19:
+	ANL	ADCON,#0x00			; Inicio de una nueva conversion en el puerto P5.0
+	ORL	ADCON,#0x08
+	JNB	FLAG_ADC,$			; Esperar a que FLAG_ADC sea 1
+	CLR	FLAG_ADC
+	JNB	TICK_50ms,$			; Espera 50ms
+	CLR	TICK_50ms
+	CLR	C
+	MOV	A,ADCH
+	SUBB	A,#0x60				; Valor para 37,5cm
+	JC	GN_EVEN_11_16			; Si es negativo es que esta a una distancia menor de 37,5cm
+	CLR	C		
+	MOV	A,ADCH
+	SUBB	A,#0x6C				; Valor para 42,5cm
+	JNC	GN_EVEN_11_17			; Si es positivo es que esta a una distancia mayor de 42,5cm
+	RET
+GN_EVEN_11_16:
+	MOV	EVENTO,#18
+	RET
+GN_EVEN_11_17:
+	MOV	EVENTO,#19
+	RET
+FIN_GN_EVEN_11:
+	RET
+;-----------------------------------
+GN_EVEN_12:
+	MOV	EVENTO,#00			; Evento nulo
+	ACALL 	GN_EVEN_12_18
+	ACALL 	GN_EVEN_12_12
+	JB 	TICK_4, GN_EVEN_12_10		; Los rod. ver. y hor. tienen que estar en sus posiciones originales
+	AJMP 	FIN_GN_EVEN_12
+GN_EVEN_12_10:
+	MOV 	EVENTO, #10			; Si han pasado 4 segundos, se pasa al evento 10
+	AJMP 	FIN_GN_EVEN_12
+GN_EVEN_12_18:
+	JNB	RH_UPTO,FIN_GN_EVEN_12
+	JNB	FC_RH_TOP,FIN_GN_EVEN_12
+	MOV 	EVENTO, #20			; Si el rodillo horizontal esta en el TOP, se pasa al evento 18
+	RET
+GN_EVEN_12_12:
+	JNB	RV_OUTTO,FIN_GN_EVEN_12
+	JNB	FC_RV_BORDE,FIN_GN_EVEN_12
+	MOV 	EVENTO, #12			; Si el rodillo vertical esta en el BORDE, se pasa al evento 12
+	RET
+FIN_GN_EVEN_12:
+	RET
+;-----------------------------------
+GN_EVEN_13:
+	MOV	EVENTO,#00			; Evento nulo
+	JNB 	FC_RV_CENTRO, FIN_GN_EVEN_13
+	MOV 	EVENTO, #11			; Si los rodillos verticales estan en el centro, se pasa al evento 11
+	AJMP 	FIN_GN_EVEN_13
+
+FIN_GN_EVEN_13:
+	RET
+;-----------------------------------
+GN_EVEN_14:
+	MOV	EVENTO,#00			; Evento nulo
+	JNB 	FC_RV_BORDE, FIN_GN_EVEN_14
+	MOV 	EVENTO, #12			; Si los rodillos verticales estan en el borde, se pasa al evento 12
+	AJMP 	FIN_GN_EVEN_14
+
+FIN_GN_EVEN_14:
+	RET
+;-----------------------------------
+GN_EVEN_15:
+	MOV	EVENTO,#00			; Evento nulo
+	JNB 	S_CAR, FIN_GN_EVEN_15
+	MOV 	EVENTO, #8			; Si se detecta el coche, se pasa al evento 8
+	AJMP 	FIN_GN_EVEN_15
+
+FIN_GN_EVEN_15:
+	RET
+;-----------------------------------
+GN_EVEN_16:
+	MOV	EVENTO,#00			; Evento nulo
+	JB 	S_CAR, FIN_GN_EVEN_16
+	MOV 	EVENTO, #9			; Si no se detecta el coche, se pasa al evento 9
+	AJMP 	FIN_GN_EVEN_16
+
+FIN_GN_EVEN_16:
+	RET
+;-----------------------------------
+GN_EVEN_17:
+	MOV	EVENTO,#00			; Evento nulo
+	JB 	TICK_4, GN_EVEN_17_10
+	AJMP 	FIN_GN_EVEN_17
+GN_EVEN_17_10:
+	ACALL	LIMPIAR_TEMP
+	MOV 	EVENTO, #10			; Si han pasado 4 segundos, se pasa al evento 10		
+       	AJMP 	FIN_GN_EVEN_17
+FIN_GN_EVEN_17:
+	RET
+;-----------------------------------
+GN_EVEN_18:
+	MOV	EVENTO,#00			; Evento nulo
+	JB 	S_CAR, GN_EVEN_18_8		
+	AJMP 	FIN_GN_EVEN_18
+GN_EVEN_18_8:
+	ACALL	LIMPIAR_TEMP
+	MOV 	EVENTO, #8			; Si se detecta el coche, se pasa al evento 8	
+       	AJMP 	FIN_GN_EVEN_18
+FIN_GN_EVEN_18:
+	RET
+;-----------------------------------
+GN_EVEN_19:
+	MOV	EVENTO,#00			; Evento nulo
+	JB 	S_CAR, FIN_GN_EVEN_19
+	MOV 	EVENTO, #9			; Si no se detecta el coche, se pasa al evento 9
+	AJMP 	FIN_GN_EVEN_19
+
+FIN_GN_EVEN_19:
+	RET
+;-----------------------------------
+GN_EVEN_20:
+	MOV	EVENTO,#00			; Evento nulo
+	JNB 	BPOS_START, FIN_GN_EVEN_20
+	MOV 	EVENTO, #21			; Si el puente vuelve a su posicion original, se pasa al evento 19
+	AJMP 	FIN_GN_EVEN_20
+
+FIN_GN_EVEN_20:
+	RET
+;-----------------------------------
+GN_EVEN_21:
+	MOV	EVENTO,#00			; Evento nulo
+	JNB 	S_PLAT, GN_EVEN_21_2
+	JB 	TICK_1, GN_EVEN_21_22
+	AJMP 	FIN_GN_EVEN_21
+
+GN_EVEN_21_2:
+	MOV 	EVENTO, #2			; Si S_PLAT es 0, es decir, deja de haber coche, se pasa al evento 2
+	AJMP 	FIN_GN_EVEN_21
+
+GN_EVEN_21_22:
+	ACALL	LIMPIAR_TEMP
+	MOV 	EVENTO, #22			; Si ha pasado 1 segundo, se pasa al evento 20	
+	AJMP 	FIN_GN_EVEN_21
+
+FIN_GN_EVEN_21:
+	RET
+;-----------------------------------
+MQ_EVEN_0:
+ 	MOV 	A, EVENTO
+	RL	A
+	MOV 	DPTR, #LIST_EVEN_MQEV_0
+	JMP 	@A+DPTR
+
+LIST_EVEN_MQEV_0:
+ 	RET	 				; Evento 0
+	NOP
+ 	AJMP 	ME0_EV_1 			; Descripción Estado 0. Evento 1
+	RET 					; Descripción Estado 0. Evento 2
+	NOP
+	RET 					; Descripción Estado 0. Evento 3
+	NOP
+	RET 					; Descripción Estado 0. Evento 4
+	NOP
+	RET 					; Descripción Estado 0. Evento 5
+	NOP
+	RET 					; Descripción Estado 0. Evento 6
+	NOP
+	RET 					; Descripción Estado 0. Evento 7
+	NOP
+	RET 					; Descripción Estado 0. Evento 8
+	NOP
+	RET 					; Descripción Estado 0. Evento 9
+	NOP
+	RET 					; Descripción Estado 0. Evento 10
+	NOP
+	RET 					; Descripción Estado 0. Evento 11
+	NOP
+	RET 					; Descripción Estado 0. Evento 12
+	NOP
+	RET 					; Descripción Estado 0. Evento 13
+	NOP
+	RET 					; Descripción Estado 0. Evento 14
+	NOP
+	RET 					; Descripción Estado 0. Evento 15
+	NOP
+	RET 					; Descripción Estado 0. Evento 16
+	NOP
+	RET 					; Descripción Estado 0. Evento 17
+	NOP
+	RET 					; Descripción Estado 0. Evento 18
+	NOP
+	RET 					; Descripción Estado 0. Evento 19
+	NOP
+	RET 					; Descripción Estado 0. Evento 20
+	NOP
+	RET 					; Descripción Estado 0. Evento 21
+	NOP
+	RET 					; Descripción Estado 0. Evento 22
+
+ME0_EV_1:
+	MOV 	ESTADO,#01
+	RET
+;-----------------------------------
+MQ_EVEN_1:
+	SETB   	TCON.4 
+	MOV 	A, EVENTO
+	RL	A
+ 	MOV 	DPTR, #LIST_EVEN_MQEV_1
+ 	JMP 	@A+DPTR
+
+LIST_EVEN_MQEV_1:
+ 	RET 					; Evento 0
+	NOP
+ 	RET		 			; Descripción Estado 1. Evento 1
+	NOP
+	AJMP 	ME1_EV_2 			; Descripción Estado 1. Evento 2
+	AJMP 	ME1_EV_3 			; Descripción Estado 1. Evento 3
+	RET 					; Descripción Estado 1. Evento 4
+	NOP
+	RET 					; Descripción Estado 1. Evento 5
+	NOP
+	RET 					; Descripción Estado 1. Evento 6
+	NOP
+	RET 					; Descripción Estado 1. Evento 7
+	NOP
+	RET 					; Descripción Estado 1. Evento 8
+	NOP
+	RET 					; Descripción Estado 1. Evento 9
+	NOP
+	RET 					; Descripción Estado 1. Evento 10
+	NOP
+	RET 					; Descripción Estado 1. Evento 11
+	NOP
+	RET 					; Descripción Estado 1. Evento 12
+	NOP
+	RET 					; Descripción Estado 1. Evento 13
+	NOP
+	RET 					; Descripción Estado 1. Evento 14
+	NOP
+	RET 					; Descripción Estado 1. Evento 15
+	NOP
+	RET 					; Descripción Estado 1. Evento 16
+	NOP
+	RET 					; Descripción Estado 1. Evento 17
+	NOP
+	RET 					; Descripción Estado 1. Evento 18
+	NOP
+	RET 					; Descripción Estado 1. Evento 19
+	NOP
+	RET 					; Descripción Estado 1. Evento 20
+	NOP
+	RET 					; Descripción Estado 1. Evento 21
+	NOP
+	RET 					; Descripción Estado 1. Evento 22
+
+ME1_EV_2:
+	MOV	ESTADO,#00
+ 	RET
+ME1_EV_3:
+	CLR	SEM_VERDE			; Acción 2
+	SETB 	SEM_ROJO			; Acción 3
+	MOV	ESTADO,#02
+ 	RET
+;-----------------------------------
+MQ_EVEN_2:
+	SETB   	TCON.4 
+	MOV 	A, EVENTO
+	RL	A
+	MOV 	DPTR, #LIST_EVEN_MQEV_2
+	JMP 	@A+DPTR
+
+LIST_EVEN_MQEV_2:
+ 	RET 					; Evento 0
+	NOP
+ 	RET 					; Descripción Estado 2. Evento 1
+	NOP
+	AJMP 	ME2_EV_2 			; Descripción Estado 2. Evento 2
+	RET 					; Descripción Estado 2. Evento 3
+	NOP
+	AJMP 	ME2_EV_4 			; Descripción Estado 2. Evento 4
+	AJMP 	ME2_EV_5 			; Descripción Estado 2. Evento 5
+	RET 					; Descripción Estado 2. Evento 6
+	NOP
+	RET 					; Descripción Estado 2. Evento 7
+	NOP
+	RET 					; Descripción Estado 2. Evento 8
+	NOP
+	RET 					; Descripción Estado 2. Evento 9
+	NOP
+	RET 					; Descripción Estado 2. Evento 10
+	NOP
+	RET 					; Descripción Estado 2. Evento 11
+	NOP
+	RET 					; Descripción Estado 2. Evento 12
+	NOP
+	RET 					; Descripción Estado 2. Evento 13
+	NOP
+	RET 					; Descripción Estado 2. Evento 14
+	NOP
+	RET 					; Descripción Estado 2. Evento 15
+	NOP
+	RET 					; Descripción Estado 2. Evento 16
+	NOP
+	RET 					; Descripción Estado 2. Evento 17
+	NOP
+	RET 					; Descripción Estado 2. Evento 18
+	NOP
+	RET 					; Descripción Estado 2. Evento 19
+	NOP
+	RET 					; Descripción Estado 2. Evento 20
+	NOP
+	RET 					; Descripción Estado 2. Evento 21
+	NOP
+	RET 					; Descripción Estado 2. Evento 22
+
+ME2_EV_2:
+	SETB	SEM_VERDE			; Acción 1
+	CLR	SEM_ROJO			; Acción 4
+	CLR	AL_START			; Acción 6
+	MOV	ESTADO,#00
+ 	RET
+ME2_EV_4:
+	SETB	AL_START			; Acción 5
+ 	RET
+ME2_EV_5:
+	CLR	AL_START			; Acción 6
+	LCALL	LED_MODO_ONOFF			; Acción 7
+	MOV	ESTADO,#03
+ 	RET
+;-----------------------------------
+MQ_EVEN_3:
+	SETB   	TCON.4 
+	MOV 	A, EVENTO
+	RL	A
+ 	MOV 	DPTR, #LIST_EVEN_MQEV_3
+ 	JMP 	@A+DPTR
+
+LIST_EVEN_MQEV_3:
+ 	RET 					; Evento 0
+	NOP
+ 	RET 					; Descripción Estado 3. Evento 1
+	NOP
+	RET 					; Descripción Estado 3. Evento 2
+	NOP
+	RET 					; Descripción Estado 3. Evento 3
+	NOP
+	AJMP 	ME3_EV_4 			; Descripción Estado 3. Evento 4
+	RET 					; Descripción Estado 3. Evento 5
+	NOP
+	AJMP 	ME3_EV_6 			; Descripción Estado 3. Evento 6
+	AJMP 	ME3_EV_7 			; Descripción Estado 3. Evento 7
+	RET 					; Descripción Estado 3. Evento 8
+	NOP
+	RET 					; Descripción Estado 3. Evento 9
+	NOP
+	RET 					; Descripción Estado 3. Evento 10
+	NOP
+	RET 					; Descripción Estado 3. Evento 11
+	NOP
+	RET 					; Descripción Estado 3. Evento 12
+	NOP
+	RET 					; Descripción Estado 3. Evento 13
+	NOP
+	RET 					; Descripción Estado 3. Evento 14
+	NOP
+	RET 					; Descripción Estado 3. Evento 15
+	NOP
+	RET 					; Descripción Estado 3. Evento 16
+	NOP
+	RET 					; Descripción Estado 3. Evento 17
+	NOP
+	RET 					; Descripción Estado 3. Evento 18
+	NOP
+	RET 					; Descripción Estado 3. Evento 19
+	NOP
+	RET 					; Descripción Estado 3. Evento 20
+	NOP
+	RET 					; Descripción Estado 3. Evento 21
+	NOP
+	RET 					; Descripción Estado 3. Evento 22
+
+ME3_EV_4:
+	SETB	AL_START			; Acción 5	
+	RET
+ME3_EV_6:
+	CLR	AL_START			; Acción 6
+	CLR	BMOV_BACK			; Acción 10
+	SETB	BMOV_FRONT
+	MOV	ESTADO,#04
+ 	RET
+ME3_EV_7:
+	CLR	AL_START			; Acción 6
+	CLR	BMOV_BACK			; Acción 10
+	SETB	BMOV_FRONT
+	MOV	ESTADO,#04
+ 	RET
+;-----------------------------------
+MQ_EVEN_4:
+	MOV 	A, EVENTO
+	RL	A
+ 	MOV 	DPTR, #LIST_EVEN_MQEV_4
+ 	JMP 	@A+DPTR
+
+LIST_EVEN_MQEV_4:
+ 	RET 					; Evento 0
+	NOP
+ 	RET 					; Descripción Estado 4. Evento 1
+	NOP
+	RET 		 			; Descripción Estado 4. Evento 2
+	NOP
+	RET 		 			; Descripción Estado 4. Evento 3
+	NOP
+	RET 		 			; Descripción Estado 4. Evento 4
+	NOP
+	RET 		 			; Descripción Estado 4. Evento 5
+	NOP
+	RET 		 			; Descripción Estado 4. Evento 6
+	NOP
+	RET 					; Descripción Estado 4. Evento 7
+	NOP
+	AJMP 	ME4_EV_8 			; Descripción Estado 4. Evento 8
+	RET 		 			; Descripción Estado 4. Evento 9
+	NOP
+	RET 		 			; Descripción Estado 4. Evento 10
+	NOP
+	RET 					; Descripción Estado 4. Evento 11
+	NOP
+	RET 		 			; Descripción Estado 4. Evento 12
+	NOP
+	RET 		 			; Descripción Estado 4. Evento 13
+	NOP
+	RET 		 			; Descripción Estado 4. Evento 14
+	NOP
+	RET 		 			; Descripción Estado 4. Evento 15
+	NOP
+	RET 		 			; Descripción Estado 4. Evento 16
+	NOP
+	RET 		 			; Descripción Estado 4. Evento 17
+	NOP
+	RET 		 			; Descripción Estado 4. Evento 18
+	NOP
+	RET 		 			; Descripción Estado 4. Evento 19
+	NOP
+	RET 		 			; Descripción Estado 4. Evento 20
+	NOP
+	RET 					; Descripción Estado 4. Evento 21
+	NOP
+	RET 					; Descripción Estado 4. Evento 22
+
+ME4_EV_8:
+	SETB	EV_AGUA				; Acción 8
+	SETB	EV_JABON			; Acción 9
+	MOV	ESTADO,#05
+ 	RET
+;-----------------------------------
+MQ_EVEN_5:
+	MOV 	A, EVENTO
+	RL	A
+ 	MOV 	DPTR, #LIST_EVEN_MQEV_5
+ 	JMP 	@A+DPTR
+
+LIST_EVEN_MQEV_5:
+ 	RET 		 			; Evento 0
+	NOP
+ 	RET 		 			; Descripción Estado 5. Evento 1
+	NOP
+	RET 		 			; Descripción Estado 5. Evento 2
+	NOP
+	RET 					; Descripción Estado 5. Evento 3
+	NOP
+	RET 		 			; Descripción Estado 5. Evento 4
+	NOP
+	RET 		 			; Descripción Estado 5. Evento 5
+	NOP
+	RET 		 			; Descripción Estado 5. Evento 6
+	NOP
+	RET 					; Descripción Estado 5. Evento 7
+	NOP
+	RET 		 			; Descripción Estado 5. Evento 8
+	NOP
+	AJMP 	ME5_EV_9 			; Descripción Estado 5. Evento 9
+	RET 					; Descripción Estado 5. Evento 10
+	NOP
+	RET 		 			; Descripción Estado 5. Evento 11
+	NOP
+	RET 		 			; Descripción Estado 5. Evento 12
+	NOP
+	RET 		 			; Descripción Estado 5. Evento 13
+	NOP
+	RET 		 			; Descripción Estado 5. Evento 14
+	NOP
+	RET 		 			; Descripción Estado 5. Evento 15
+	NOP
+	RET 		 			; Descripción Estado 5. Evento 16
+	NOP
+	RET 		 			; Descripción Estado 5. Evento 17
+	NOP
+	RET 		 			; Descripción Estado 5. Evento 18
+	NOP
+	RET 		 			; Descripción Estado 5. Evento 19
+	NOP
+	RET 		 			; Descripción Estado 5. Evento 20
+	NOP
+	RET 					; Descripción Estado 5. Evento 21
+	NOP
+	RET 					; Descripción Estado 5. Evento 22
+
+ME5_EV_9:
+	CLR	EV_AGUA				; Acción 8
+	CLR	EV_JABON			; Acción 9
+	MOV	ESTADO,#06
+ 	RET
+;-----------------------------------
+MQ_EVEN_6:
+	SETB   	TCON.4 
+	MOV 	A, EVENTO
+	RL	A
+ 	MOV 	DPTR, #LIST_EVEN_MQEV_6
+ 	JMP 	@A+DPTR
+
+LIST_EVEN_MQEV_6:
+ 	RET 		 			; Evento 0
+	NOP
+ 	RET 		 			; Descripción Estado 6. Evento 1
+	NOP
+	RET 					; Descripción Estado 6. Evento 2
+	NOP
+	RET 		 			; Descripción Estado 6. Evento 3
+	NOP
+	RET 		 			; Descripción Estado 6. Evento 4
+	NOP
+	RET 					; Descripción Estado 6. Evento 5
+	NOP
+	RET 					; Descripción Estado 6. Evento 6
+	NOP
+	RET 					; Descripción Estado 6. Evento 7
+	NOP
+	RET 		 			; Descripción Estado 6. Evento 8
+	NOP
+	RET 					; Descripción Estado 6. Evento 9
+	NOP
+	AJMP 	ME6_EV_10 			; Descripción Estado 6. Evento 10
+	RET 		 			; Descripción Estado 6. Evento 11
+	NOP
+	RET 		 			; Descripción Estado 6. Evento 12
+	NOP
+	RET 		 			; Descripción Estado 6. Evento 13
+	NOP
+	RET 		 			; Descripción Estado 6. Evento 14
+	NOP
+	RET 		 			; Descripción Estado 6. Evento 15
+	NOP
+	RET 		 			; Descripción Estado 6. Evento 16
+	NOP
+	RET 		 			; Descripción Estado 6. Evento 17
+	NOP
+	RET 		 			; Descripción Estado 6. Evento 18
+	NOP
+	RET 		 			; Descripción Estado 6. Evento 19
+	NOP
+	RET 		 			; Descripción Estado 6. Evento 20
+	NOP
+	RET 					; Descripción Estado 6. Evento 21
+	NOP
+	RET 					; Descripción Estado 6. Evento 22
+
+ME6_EV_10:
+	CLR	BMOV_FRONT			; Acción 10
+	LCALL	ROD_VER_DENTRO_ONOFF		; Acción 12
+	MOV	ESTADO,#07
+	RET
+;-----------------------------------
+MQ_EVEN_7:
+	MOV 	A, EVENTO
+	RL	A
+ 	MOV 	DPTR, #LIST_EVEN_MQEV_7
+ 	JMP 	@A+DPTR
+
+LIST_EVEN_MQEV_7:
+ 	RET 					; Evento 0
+	NOP
+ 	RET 		 			; Descripción Estado 7. Evento 1
+	NOP
+	RET 					; Descripción Estado 7. Evento 2
+	NOP
+	RET 					; Descripción Estado 7. Evento 3
+	NOP
+	RET 					; Descripción Estado 7. Evento 4
+	NOP
+	RET 					; Descripción Estado 7. Evento 5
+	NOP
+	RET 					; Descripción Estado 7. Evento 6
+	NOP
+	RET 		 			; Descripción Estado 7. Evento 7
+	NOP
+	RET 					; Descripción Estado 7. Evento 8
+	NOP
+	RET 		 			; Descripción Estado 7. Evento 9
+	NOP
+	RET 		 			; Descripción Estado 7. Evento 10
+	NOP
+	AJMP 	ME7_EV_11 			; Descripción Estado 7. Evento 11
+	RET 		 			; Descripción Estado 7. Evento 12
+	NOP
+	RET 		 			; Descripción Estado 7. Evento 13
+	NOP
+	RET 					; Descripción Estado 7. Evento 14
+	NOP
+	RET 		 			; Descripción Estado 7. Evento 15
+	NOP
+	RET 		 			; Descripción Estado 7. Evento 16
+	NOP
+	RET 		 			; Descripción Estado 7. Evento 17
+	NOP
+	RET 		 			; Descripción Estado 7. Evento 18
+	NOP
+	RET 					; Descripción Estado 7. Evento 19
+	NOP
+	RET 		 			; Descripción Estado 7. Evento 20
+	NOP
+	RET 					; Descripción Estado 7. Evento 21
+	NOP
+	RET 					; Descripción Estado 7. Evento 22
+
+ME7_EV_11:
+	LCALL	ROD_VER_FUERA_ONOFF		; Acción 13
+	MOV	ESTADO,#08
+ 	RET
+;-----------------------------------
+MQ_EVEN_8:
+	MOV 	A, EVENTO
+	RL	A
+ 	MOV 	DPTR, #LIST_EVEN_MQEV_8
+ 	JMP 	@A+DPTR
+
+LIST_EVEN_MQEV_8:
+ 	RET 					; Evento 0
+	NOP
+ 	RET 					; Descripción Estado 8. Evento 1
+	NOP
+	RET 					; Descripción Estado 8. Evento 2
+	NOP
+	RET 					; Descripción Estado 8. Evento 3
+	NOP
+	RET 					; Descripción Estado 8. Evento 4
+	NOP
+	RET 		 			; Descripción Estado 8. Evento 5
+	NOP
+	RET 		 			; Descripción Estado 8. Evento 6
+	NOP
+	RET 		 			; Descripción Estado 8. Evento 7
+	NOP
+	RET 					; Descripción Estado 8. Evento 8
+	NOP
+	RET 		 			; Descripción Estado 8. Evento 9
+	NOP
+	RET 		 			; Descripción Estado 8. Evento 10
+	NOP
+	RET 		 			; Descripción Estado 8. Evento 11
+	NOP
+	AJMP	ME8_EV_12 			; Descripción Estado 8. Evento 12
+	RET 		 			; Descripción Estado 8. Evento 13
+	NOP
+	RET 		 			; Descripción Estado 8. Evento 14
+	NOP
+	RET 		 			; Descripción Estado 8. Evento 15
+	NOP
+	RET 		 			; Descripción Estado 8. Evento 16
+	NOP
+	RET 		 			; Descripción Estado 8. Evento 17
+	NOP
+	RET 		 			; Descripción Estado 8. Evento 18
+	NOP
+	RET 		 			; Descripción Estado 8. Evento 19
+	NOP	
+	RET 		 			; Descripción Estado 8. Evento 20
+	NOP
+	RET 					; Descripción Estado 8. Evento 21
+	NOP
+	RET 					; Descripción Estado 8. Evento 22
+
+ME8_EV_12:
+	CLR	BMOV_FRONT			; Acción 11
+	SETB	BMOV_BACK
+	LCALL 	ROD_VER_FUERA_ONOFF		; Acción 13
+	MOV	ESTADO,#09
+ 	RET
+;-----------------------------------
+MQ_EVEN_9:
+	MOV 	A, EVENTO
+	RL 	A
+ 	MOV 	DPTR, #LIST_EVEN_MQEV_9
+ 	JMP 	@A+DPTR
+
+LIST_EVEN_MQEV_9:
+ 	RET 		 			; Evento 0
+	NOP
+ 	RET 					; Descripción Estado 9. Evento 1
+	NOP
+	RET 					; Descripción Estado 9. Evento 2
+	NOP
+	RET 					; Descripción Estado 9. Evento 3
+	NOP
+	RET 					; Descripción Estado 9. Evento 4
+	NOP
+	RET 		 			; Descripción Estado 9. Evento 5
+	NOP
+	RET 		 			; Descripción Estado 9. Evento 6
+	NOP
+	RET 		 			; Descripción Estado 9. Evento 7
+	NOP
+	AJMP 	ME9_EV_8 			; Descripción Estado 9. Evento 8
+	RET 					; Descripción Estado 9. Evento 9
+	NOP
+	RET 		 			; Descripción Estado 9. Evento 10
+	NOP
+	RET 		 			; Descripción Estado 9. Evento 11
+	NOP
+	RET 					; Descripción Estado 9. Evento 12
+	NOP
+	RET 					; Descripción Estado 9. Evento 13
+	NOP
+	RET 		 			; Descripción Estado 9. Evento 14
+	NOP
+	RET 					; Descripción Estado 9. Evento 15
+	NOP
+	RET 		 			; Descripción Estado 9. Evento 16
+	NOP
+	RET 		 			; Descripción Estado 9. Evento 17
+	NOP
+	RET 		 			; Descripción Estado 9. Evento 18
+	NOP
+	RET 		 			; Descripción Estado 9. Evento 19
+	NOP
+	RET 		 			; Descripción Estado 9. Evento 20
+	NOP
+	RET 					; Descripción Estado 9. Evento 21
+	NOP
+	RET 					; Descripción Estado 9. Evento 22
+
+ME9_EV_8:
+	CLR	BMOV_BACK			; Acción 11
+	LCALL	ROD_VER_DENTRO_ONOFF		; Acción 12
+	LCALL	ROD_HOR_ABAJO_ONOFF		; Acción 14
+	MOV	ESTADO,#10
+ 	RET
+;-----------------------------------
+MQ_EVEN_10:
+	MOV 	A, EVENTO
+	RL 	A
+ 	MOV 	DPTR, #LIST_EVEN_MQEV_10
+ 	JMP 	@A+DPTR
+
+LIST_EVEN_MQEV_10:
+ 	RET		  		 	; Evento 0
+	NOP
+ 	RET 					; Descripción Estado 10. Evento 1
+	NOP
+	RET 					; Descripción Estado 10. Evento 2
+	NOP
+	RET 		 			; Descripción Estado 10. Evento 3
+	NOP
+	RET 					; Descripción Estado 10. Evento 4
+	NOP
+	RET 					; Descripción Estado 10. Evento 5
+	NOP
+	RET 					; Descripción Estado 10. Evento 6
+	NOP
+	RET 					; Descripción Estado 10. Evento 7
+	NOP
+	RET 					; Descripción Estado 10. Evento 8
+	NOP
+	RET 					; Descripción Estado 10. Evento 9
+	NOP
+	RET 		 			; Descripción Estado 10. Evento 10
+	NOP
+	RET 					; Descripción Estado 10. Evento 11
+	NOP
+	RET 		 			; Descripción Estado 10. Evento 12
+	NOP
+	AJMP 	ME10_EV_13 			; Descripción Estado 10. Evento 13
+	AJMP 	ME10_EV_14 			; Descripción Estado 10. Evento 14
+	AJMP 	ME10_EV_15 		 	; Descripción Estado 10. Evento 15
+	RET 		 			; Descripción Estado 10. Evento 16
+	NOP
+	RET 		 			; Descripción Estado 10. Evento 17
+	NOP
+	RET 					; Descripción Estado 10. Evento 18
+	NOP
+	RET 		 			; Descripción Estado 10. Evento 19
+	NOP
+	RET 		 			; Descripción Estado 10. Evento 20
+	NOP
+	RET 		 			; Descripción Estado 10. Evento 21
+	NOP
+	RET 		 			; Descripción Estado 10. Evento 22
+
+ME10_EV_13:
+	CLR	RH_DOWNTO			; Acción 14
+	RET
+ME10_EV_14:
+	CLR	RV_INTO				; Acción 12
+	RET
+ME10_EV_15:
+	CLR	BMOV_FRONT			; Acción 11
+	SETB	BMOV_BACK
+	LCALL	OFF_TODOS_MOV_ROD_HV		; Acción 16
+	MOV	ESTADO,#11
+ 	RET
+
+;-----------------------------------
+MQ_EVEN_11:
+	MOV 	A, EVENTO
+	RL 	A
+ 	MOV 	DPTR, #LIST_EVEN_MQEV_11
+ 	JMP 	@A+DPTR
+
+LIST_EVEN_MQEV_11:
+ 	RET		 			; Evento 0
+	NOP
+ 	RET 		 			; Descripción Estado 11. Evento 1
+	NOP
+	RET 		 			; Descripción Estado 11. Evento 2
+	NOP
+	RET 		 			; Descripción Estado 11. Evento 3
+	NOP
+	RET 		 			; Descripción Estado 11. Evento 4
+	NOP
+	RET 		 			; Descripción Estado 11. Evento 5
+	NOP
+	RET 		 			; Descripción Estado 11. Evento 6
+	NOP
+	RET 		 			; Descripción Estado 11. Evento 7
+	NOP
+	RET 		 			; Descripción Estado 11. Evento 8
+	NOP
+	AJMP 	ME11_EV_9 			; Descripción Estado 11. Evento 9
+	RET 		 			; Descripción Estado 11. Evento 10
+	NOP
+	RET 		 			; Descripción Estado 11. Evento 11
+	NOP
+	RET 		 			; Descripción Estado 11. Evento 12
+	NOP
+	RET 		 			; Descripción Estado 11. Evento 13
+	NOP
+	RET 		 			; Descripción Estado 11. Evento 14
+	NOP
+	RET 		 			; Descripción Estado 11. Evento 15
+	NOP
+	AJMP 	ME11_EV_16 			; Descripción Estado 11. Evento 16
+	AJMP 	ME11_EV_17 			; Descripción Estado 11. Evento 17
+	AJMP 	ME11_EV_18 		 	; Descripción Estado 11. Evento 18
+	AJMP 	ME11_EV_19 			; Descripción Estado 11. Evento 19
+	RET 		 			; Descripción Estado 11. Evento 20
+	NOP
+	RET 					; Descripción Estado 11. Evento 21
+	NOP
+	RET 					; Descripción Estado 11. Evento 22
+
+ME11_EV_9:
+	LCALL	OFF_TODOS_MOV_ROD_HV		; Acción 16
+	LCALL 	ROD_HOR_ARRIBA_ONOFF		; Acción 15
+	LCALL	ROD_VER_FUERA_ONOFF		; Acción 13
+	MOV	ESTADO,#12
+ 	RET
+ME11_EV_16:
+	CLR	RV_INTO				; Acción 13
+	SETB	RV_OUTTO			
+ 	RET
+ME11_EV_17:
+	CLR	RV_OUTTO			; Acción 12
+	SETB	RV_INTO				
+ 	RET
+ME11_EV_18:
+	CLR	RH_DOWNTO			; Acción 15
+	SETB	RH_UPTO				
+ 	RET
+ME11_EV_19:
+	CLR	RH_UPTO				; Acción 14
+	SETB	RH_DOWNTO			
+ 	RET
+;-----------------------------------
+MQ_EVEN_12:
+	SETB   	TCON.4 
+	MOV 	A, EVENTO
+	RL 	A
+ 	MOV 	DPTR, #LIST_EVEN_MQEV_12
+ 	JMP 	@A+DPTR
+
+LIST_EVEN_MQEV_12:
+ 	RET 					; Evento 0
+	NOP
+ 	RET 					; Descripción Estado 12. Evento 1
+	NOP
+	RET 		 			; Descripción Estado 12. Evento 2
+	NOP
+	RET 		 			; Descripción Estado 12. Evento 3
+	NOP
+	RET 		 			; Descripción Estado 12. Evento 4
+	NOP
+	RET 		 			; Descripción Estado 12. Evento 5
+	NOP
+	RET 					; Descripción Estado 12. Evento 6
+	NOP
+	RET 					; Descripción Estado 12. Evento 7
+	NOP
+	RET 		 			; Descripción Estado 12. Evento 8
+	NOP
+	RET 		 			; Descripción Estado 12. Evento 9
+	NOP
+	AJMP 	ME12_EV_10 			; Descripción Estado 12. Evento 10
+	RET 		 			; Descripción Estado 12. Evento 11
+	NOP
+	AJMP	ME12_EV_12 		 	; Descripción Estado 12. Evento 12
+	RET 		 			; Descripción Estado 12. Evento 13
+	NOP
+	RET 					; Descripción Estado 12. Evento 14
+	NOP
+	RET 		 			; Descripción Estado 12. Evento 15
+	NOP
+	RET 		 			; Descripción Estado 12. Evento 16
+	NOP
+	RET 		 			; Descripción Estado 12. Evento 17
+	NOP
+	RET 		 			; Descripción Estado 12. Evento 18
+	NOP
+	RET 		 			; Descripción Estado 12. Evento 19
+	NOP
+	AJMP	ME12_EV_20		 	; Descripción Estado 12. Evento 20
+	RET 					; Descripción Estado 12. Evento 21
+	NOP
+	RET 					; Descripción Estado 12. Evento 22
+
+ME12_EV_10:
+	CLR	BMOV_BACK			; Acción 11
+	JB	RH_UPTO,ME12_EV_10_AUX
+	JB	RV_OUTTO,ME12_EV_10_AUX
+	LCALL	ROD_VER_DENTRO_ONOFF		; Acción 12
+	ACALL	LIMPIAR_TEMP
+	MOV	ESTADO,#13
+ME12_EV_10_AUX:
+ 	RET
+ME12_EV_12:
+	CLR 	RV_OUTTO			; Acción 13
+ 	RET
+ME12_EV_20:
+	CLR 	RH_UPTO				; Acción 15
+ 	RET
+;-----------------------------------
+MQ_EVEN_13:
+	MOV 	A, EVENTO
+	RL 	A
+ 	MOV 	DPTR, #LIST_EVEN_MQEV_13
+ 	JMP 	@A+DPTR
+
+LIST_EVEN_MQEV_13:
+ 	RET 		 			; Evento 0
+	NOP
+ 	RET 		 			; Descripción Estado 13. Evento 1
+	NOP
+	RET 		 			; Descripción Estado 13. Evento 2
+	NOP
+	RET 					; Descripción Estado 13. Evento 3
+	NOP
+	RET 					; Descripción Estado 13. Evento 4
+	NOP
+	RET 		 			; Descripción Estado 13. Evento 5
+	NOP
+	RET 		 			; Descripción Estado 13. Evento 6
+	NOP
+	RET 					; Descripción Estado 13. Evento 7
+	NOP
+	RET 		 			; Descripción Estado 13. Evento 8
+	NOP
+	RET 		 			; Descripción Estado 13. Evento 9
+	NOP
+	RET 		 			; Descripción Estado 13. Evento 10
+	NOP
+	AJMP 	ME13_EV_11 			; Descripción Estado 13. Evento 11
+	RET 		 			; Descripción Estado 13. Evento 12
+	NOP
+	RET 		 			; Descripción Estado 13. Evento 13
+	NOP
+	RET 		 			; Descripción Estado 13. Evento 14
+	NOP
+	RET 		 			; Descripción Estado 13. Evento 15
+	NOP
+	RET 		 			; Descripción Estado 13. Evento 16
+	NOP
+	RET 		 			; Descripción Estado 13. Evento 17
+	NOP
+	RET 		 			; Descripción Estado 13. Evento 18
+	NOP
+	RET 		 			; Descripción Estado 13. Evento 19
+	NOP
+	RET 		 			; Descripción Estado 13. Evento 20
+	NOP
+	RET 					; Descripción Estado 13. Evento 21
+	NOP
+	RET 					; Descripción Estado 13. Evento 22
+
+ME13_EV_11:
+	LCALL	ROD_VER_FUERA_ONOFF		; Acción 13
+	MOV	ESTADO,#14
+ 	RET
+;-----------------------------------
+MQ_EVEN_14:
+	MOV 	A, EVENTO
+	RL 	A
+ 	MOV 	DPTR, #LIST_EVEN_MQEV_14
+ 	JMP 	@A+DPTR
+
+LIST_EVEN_MQEV_14:
+ 	RET 		 			; Evento 0
+	NOP
+ 	RET 					; Descripción Estado 14. Evento 1
+	NOP
+	RET 					; Descripción Estado 14. Evento 2
+	NOP
+	RET 		 			; Descripción Estado 14. Evento 3
+	NOP
+	RET 		 			; Descripción Estado 14. Evento 4
+	NOP
+	RET 		 			; Descripción Estado 14. Evento 5
+	NOP
+	RET 		 			; Descripción Estado 14. Evento 6
+	NOP
+	RET 		 			; Descripción Estado 14. Evento 7
+	NOP
+	RET 		 			; Descripción Estado 14. Evento 8
+	NOP
+	RET 					; Descripción Estado 14. Evento 9
+	NOP
+	RET 		 			; Descripción Estado 14. Evento 10
+	NOP
+	RET 		 			; Descripción Estado 14. Evento 11
+	NOP
+	AJMP	ME14_EV_12 			; Descripción Estado 14. Evento 12
+	RET 		 			; Descripción Estado 14. Evento 13
+	NOP
+	RET 		 			; Descripción Estado 14. Evento 14
+	NOP
+	RET 		 			; Descripción Estado 14. Evento 15
+	NOP
+	RET 		 			; Descripción Estado 14. Evento 16
+	NOP
+	RET 		 			; Descripción Estado 14. Evento 17
+	NOP
+	RET 		 			; Descripción Estado 14. Evento 18
+	NOP
+	RET 		 			; Descripción Estado 14. Evento 19
+	NOP
+	RET 		 			; Descripción Estado 14. Evento 20
+	NOP
+	RET 					; Descripción Estado 14. Evento 21
+	NOP
+	RET 					; Descripción Estado 14. Evento 22
+ME14_EV_12:
+	CLR	BMOV_BACK			; Acción 10
+	SETB	BMOV_FRONT
+	LCALL	ROD_VER_FUERA_ONOFF		; Acción 13
+	MOV	PWM0,#0xFF			; Acción 19
+	MOV	ESTADO,#15
+ 	RET
+;-----------------------------------
+MQ_EVEN_15:
+	MOV 	A, EVENTO
+	RL 	A
+ 	MOV 	DPTR, #LIST_EVEN_MQEV_15
+ 	JMP 	@A+DPTR
+
+LIST_EVEN_MQEV_15:
+ 	RET 					; Evento 0
+	NOP
+ 	RET 		 			; Descripción Estado 15. Evento 1
+	NOP
+	RET 		 			; Descripción Estado 15. Evento 2
+	NOP
+	RET 					; Descripción Estado 15. Evento 3
+	NOP
+	RET 		 			; Descripción Estado 15. Evento 4
+	NOP
+	RET 					; Descripción Estado 15. Evento 5
+	NOP
+	RET 		 			; Descripción Estado 15. Evento 6
+	NOP
+	RET 		 			; Descripción Estado 15. Evento 7
+	NOP
+	AJMP 	ME15_EV_8 			; Descripción Estado 15. Evento 8
+	RET 		 			; Descripción Estado 15. Evento 9
+	NOP
+	RET 		 			; Descripción Estado 15. Evento 10
+	NOP
+	RET 		 			; Descripción Estado 15. Evento 11
+	NOP
+	RET 		 			; Descripción Estado 15. Evento 12
+	NOP
+	RET 		 			; Descripción Estado 15. Evento 13
+	NOP
+	RET 		 			; Descripción Estado 15. Evento 14
+	NOP
+	RET 		 			; Descripción Estado 15. Evento 15
+	NOP
+	RET 		 			; Descripción Estado 15. Evento 16
+	NOP
+	RET 		 			; Descripción Estado 15. Evento 17
+	NOP
+	RET 		 			; Descripción Estado 15. Evento 18
+	NOP
+	RET 		 			; Descripción Estado 15. Evento 19
+	NOP
+	RET 		 			; Descripción Estado 15. Evento 20
+	NOP
+	RET 					; Descripción Estado 15. Evento 21
+	NOP
+	RET 					; Descripción Estado 15. Evento 22
+ME15_EV_8:
+	SETB	EV_AGUA				; Acción 8
+	MOV	ESTADO,#16
+ 	RET
+;-----------------------------------
+MQ_EVEN_16:
+	MOV 	A, EVENTO
+	RL 	A
+ 	MOV 	DPTR, #LIST_EVEN_MQEV_16
+ 	JMP 	@A+DPTR
+
+LIST_EVEN_MQEV_16:
+ 	RET 		 			; Evento 0
+	NOP
+ 	RET 		 			; Descripción Estado 16. Evento 1
+	NOP
+	RET 		 			; Descripción Estado 16. Evento 2
+	NOP
+	RET 		 			; Descripción Estado 16. Evento 3
+	NOP
+	RET 		 			; Descripción Estado 16. Evento 4
+	NOP
+	RET 		 			; Descripción Estado 16. Evento 5
+	NOP
+	RET 		 			; Descripción Estado 16. Evento 6
+	NOP
+	RET 		 			; Descripción Estado 16. Evento 7
+	NOP
+	RET 		 			; Descripción Estado 16. Evento 8
+	NOP
+	AJMP 	ME16_EV_9 			; Descripción Estado 16. Evento 9
+	RET 		 			; Descripción Estado 16. Evento 10
+	NOP
+	RET 		 			; Descripción Estado 16. Evento 11
+	NOP
+	RET 		 			; Descripción Estado 16. Evento 12
+	NOP
+	RET 		 			; Descripción Estado 16. Evento 13
+	NOP
+	RET 		 			; Descripción Estado 16. Evento 14
+	NOP
+	RET 		 			; Descripción Estado 16. Evento 15
+	NOP
+	RET 		 			; Descripción Estado 16. Evento 16
+	NOP
+	RET 		 			; Descripción Estado 16. Evento 17
+	NOP
+	RET 		 			; Descripción Estado 16. Evento 18
+	NOP
+	RET 		 			; Descripción Estado 16. Evento 19
+	NOP
+	RET 		 			; Descripción Estado 16. Evento 20
+	NOP
+	RET 					; Descripción Estado 16. Evento 21
+	NOP
+	RET 					; Descripción Estado 16. Evento 22
+ME16_EV_9:
+	CLR	EV_AGUA				; Acción 8
+	MOV	ESTADO,#17
+ 	RET
+;-----------------------------------
+MQ_EVEN_17:
+	SETB   	TCON.4 
+	MOV 	A, EVENTO
+	RL 	A
+ 	MOV 	DPTR, #LIST_EVEN_MQEV_17
+ 	JMP 	@A+DPTR
+
+LIST_EVEN_MQEV_17:
+ 	RET 		 			; Evento 0
+	NOP
+ 	RET 		 			; Descripción Estado 17. Evento 1
+	NOP
+	RET 		 			; Descripción Estado 17. Evento 2
+	NOP
+	RET 		 			; Descripción Estado 17. Evento 3
+	NOP
+	RET 		 			; Descripción Estado 17. Evento 4
+	NOP
+	RET 		 			; Descripción Estado 17. Evento 5
+	NOP
+	RET 		 			; Descripción Estado 17. Evento 6
+	NOP
+	RET 		 			; Descripción Estado 17. Evento 7
+	NOP
+	RET 		 			; Descripción Estado 17. Evento 8
+	NOP
+	RET 		 			; Descripción Estado 17. Evento 9
+	NOP
+	AJMP 	ME17_EV_10 			; Descripción Estado 17. Evento 10
+	RET 		 			; Descripción Estado 17. Evento 11
+	NOP
+	RET 		 			; Descripción Estado 17. Evento 12
+	NOP
+	RET 		 			; Descripción Estado 17. Evento 13
+	NOP
+	RET 		 			; Descripción Estado 17. Evento 14
+	NOP
+	RET 		 			; Descripción Estado 17. Evento 15
+	NOP
+	RET 		 			; Descripción Estado 17. Evento 16
+	NOP
+	RET 		 			; Descripción Estado 17. Evento 17
+	NOP
+	RET 		 			; Descripción Estado 17. Evento 18
+	NOP
+	RET 		 			; Descripción Estado 17. Evento 19
+	NOP
+	RET 		 			; Descripción Estado 17. Evento 20
+	NOP
+	RET 					; Descripción Estado 17. Evento 21
+	NOP
+	RET 					; Descripción Estado 17. Evento 22
+ME17_EV_10:
+	CLR	BMOV_FRONT		; Acción 11
+	SETB	BMOV_BACK
+	MOV	ESTADO,#18
+ 	RET
+;-----------------------------------
+MQ_EVEN_18:
+	SETB   	TCON.4 
+	MOV 	A, EVENTO
+	RL 	A
+ 	MOV 	DPTR, #LIST_EVEN_MQEV_18
+ 	JMP 	@A+DPTR
+
+LIST_EVEN_MQEV_18:
+ 	RET 		 			; Evento 0
+	NOP
+ 	RET 		 			; Descripción Estado 18. Evento 1
+	NOP
+	RET 		 			; Descripción Estado 18. Evento 2
+	NOP
+	RET 		 			; Descripción Estado 18. Evento 3
+	NOP
+	RET 		 			; Descripción Estado 18. Evento 4
+	NOP
+	RET 		 			; Descripción Estado 18. Evento 5
+	NOP
+	RET 		 			; Descripción Estado 18. Evento 6
+	NOP
+	RET 		 			; Descripción Estado 18. Evento 7
+	NOP
+	LJMP 	ME18_EV_8 		 	; Descripción Estado 18. Evento 8
+	RET 		 			; Descripción Estado 18. Evento 9
+	NOP
+	RET		 			; Descripción Estado 18. Evento 10
+	NOP
+	RET 		 			; Descripción Estado 18. Evento 11
+	NOP
+	RET 					; Descripción Estado 18. Evento 13
+	NOP
+	RET 		 			; Descripción Estado 18. Evento 14
+	NOP
+	RET 		 			; Descripción Estado 18. Evento 15
+	NOP
+	RET 		 			; Descripción Estado 18. Evento 16
+	NOP
+	RET 		 			; Descripción Estado 18. Evento 17
+	NOP
+	RET 		 			; Descripción Estado 18. Evento 18
+	NOP
+	RET 		 			; Descripción Estado 18. Evento 19
+	NOP
+	RET 		 			; Descripción Estado 18. Evento 20
+	NOP
+	RET 					; Descripción Estado 18. Evento 21
+	NOP
+	RET 					; Descripción Estado 18. Evento 22
+ME18_EV_8:
+	LCALL	VENT_ONOFF			; Acción 17
+	MOV	ESTADO,#19
+ 	RET
+
+;-----------------------------------
+MQ_EVEN_19:
+	MOV 	A, EVENTO
+	RL 	A
+ 	MOV 	DPTR, #LIST_EVEN_MQEV_19
+ 	JMP 	@A+DPTR
+
+LIST_EVEN_MQEV_19:
+ 	RET 		 			; Evento 0
+	NOP
+ 	RET 		 			; Descripción Estado 19. Evento 1
+	NOP
+	RET 					; Descripción Estado 19. Evento 2
+	NOP
+	RET 		 			; Descripción Estado 19. Evento 3
+	NOP
+	RET 					; Descripción Estado 19. Evento 4
+	NOP
+	RET 		 			; Descripción Estado 19. Evento 5
+	NOP
+	RET 		 			; Descripción Estado 19. Evento 6
+	NOP
+	RET 		 			; Descripción Estado 19. Evento 7
+	NOP
+	RET 		 			; Descripción Estado 19. Evento 8
+	NOP
+	AJMP 	ME19_EV_9 			; Descripción Estado 19. Evento 9
+	RET 		 			; Descripción Estado 19. Evento 10
+	NOP
+	RET 		 			; Descripción Estado 19. Evento 11
+	NOP
+	RET 		 			; Descripción Estado 19. Evento 12
+	NOP
+	RET 		 			; Descripción Estado 19. Evento 13
+	NOP
+	RET 		 			; Descripción Estado 19. Evento 14
+	NOP
+	RET 		 			; Descripción Estado 19. Evento 15
+	NOP
+	RET 		 			; Descripción Estado 19. Evento 16
+	NOP
+	RET 		 			; Descripción Estado 19. Evento 17
+	NOP
+	RET 					; Descripción Estado 19. Evento 18
+	NOP
+	RET 		 			; Descripción Estado 19. Evento 19
+	NOP
+	RET 		 			; Descripción Estado 19. Evento 20
+	NOP
+	RET 					; Descripción Estado 19. Evento 21
+	NOP
+	RET 					; Descripción Estado 19. Evento 22
+ME19_EV_9:
+	MOV	PWM1,#0xFF			; Acción 17
+	MOV	ESTADO,#20
+ 	RET
+;-----------------------------------
+MQ_EVEN_20:
+	MOV 	A, EVENTO
+	RL 	A
+ 	MOV 	DPTR, #LIST_EVEN_MQEV_20
+ 	JMP 	@A+DPTR
+
+LIST_EVEN_MQEV_20:
+ 	RET 		 			; Evento 0
+	NOP
+ 	RET 		 			; Descripción Estado 20. Evento 1
+	NOP
+	RET 		 			; Descripción Estado 20. Evento 2
+	NOP
+	RET 		 			; Descripción Estado 20. Evento 3
+	NOP
+	RET 		 			; Descripción Estado 20. Evento 4
+	NOP
+	RET 		 			; Descripción Estado 20. Evento 5
+	NOP
+	RET 		 			; Descripción Estado 20. Evento 6
+	NOP
+	RET 		 			; Descripción Estado 20. Evento 7
+	NOP
+	RET 		 			; Descripción Estado 20. Evento 8
+	NOP
+	RET 		 			; Descripción Estado 20. Evento 9
+	NOP
+	RET 		 			; Descripción Estado 20. Evento 10
+	NOP
+	RET 		 			; Descripción Estado 20. Evento 11
+	NOP
+	RET 		 			; Descripción Estado 20. Evento 12
+	NOP
+	RET 		 			; Descripción Estado 20. Evento 13
+	NOP
+	RET 		 			; Descripción Estado 20. Evento 14
+	NOP
+	RET 					; Descripción Estado 20. Evento 15
+	NOP
+	RET 		 			; Descripción Estado 20. Evento 16
+	NOP
+	RET 		 			; Descripción Estado 20. Evento 17
+	NOP
+	RET 		 			; Descripción Estado 20. Evento 18
+	NOP
+	RET		 			; Descripción Estado 20. Evento 19
+	NOP
+	RET 		 			; Descripción Estado 20. Evento 20
+	NOP
+	AJMP	ME20_EV_21 			; Descripción Estado 20. Evento 21
+	RET 					; Descripción Estado 20. Evento 22
+
+ME20_EV_21:	
+	CLR	BMOV_BACK			; Acción 11
+	CLR	SEM_ROJO			; Acción 4
+	MOV	ESTADO,#21
+ 	RET
+
+;------------------------------------------
+MQ_EVEN_21:
+	SETB   	TCON.4 
+	MOV 	A, EVENTO
+	RL 	A
+ 	MOV 	DPTR, #LIST_EVEN_MQEV_21
+ 	JMP 	@A+DPTR
+
+LIST_EVEN_MQEV_21:
+ 	RET 		 			; Evento 0
+	NOP
+ 	RET 		 			; Descripción Estado 21. Evento 1
+	NOP
+	LJMP 	ME21_EV_2 			; Descripción Estado 21. Evento 2
+	RET 		 			; Descripción Estado 21. Evento 3
+	NOP
+	RET 		 			; Descripción Estado 21. Evento 4
+	NOP
+	RET 		 			; Descripción Estado 21. Evento 5
+	NOP
+	RET 		 			; Descripción Estado 21. Evento 6
+	NOP
+	RET 		 			; Descripción Estado 21. Evento 7
+	NOP
+	RET 		 			; Descripción Estado 21. Evento 8
+	NOP
+	RET 		 			; Descripción Estado 21. Evento 9
+	NOP
+	RET 		 			; Descripción Estado 21. Evento 10
+	NOP
+	RET 		 			; Descripción Estado 21. Evento 11
+	NOP
+	RET 		 			; Descripción Estado 21. Evento 12
+	NOP
+	RET 		 			; Descripción Estado 21. Evento 13
+	NOP
+	RET 		 			; Descripción Estado 21. Evento 14
+	NOP
+	RET 		 			; Descripción Estado 21. Evento 15
+	NOP
+	RET 		 			; Descripción Estado 21. Evento 16
+	NOP
+	RET 		 			; Descripción Estado 21. Evento 17
+	NOP
+	RET 		 			; Descripción Estado 21. Evento 18
+	NOP
+	RET 		 			; Descripción Estado 21. Evento 19
+	NOP
+	RET		 			; Descripción Estado 21. Evento 20
+	NOP
+	RET 					; Descripción Estado 21. Evento 21
+	NOP
+	AJMP	ME21_EV_22			; Descripción Estado 21. Evento 22
+
+ME21_EV_2:
+	SETB	SEM_VERDE			; Acción 1
+	ACALL	LED_MODO_ONOFF			; Acción 7
+	MOV	ESTADO,#00
+ 	RET
+ME21_EV_22:
+	SETB   	TCON.4 
+	LCALL	SEM_VERDE_ONOFF			; Acción 18
+ 	RET
+;-----------------------------------
+
+LED_MODO_ONOFF:					;Acción 7
+	JB	LED_LNOR, LED_MODONOR_OFF
+	JB	LED_LINT, LED_MODOINT_OFF
+	JB	FICHA_TIPO, ON_LINT
+	SETB	LED_LNOR
+	RET
+ON_LINT:
+	SETB	LED_LINT
+	RET
+LED_MODONOR_OFF:
+	CLR	LED_LNOR
+	RET
+LED_MODOINT_OFF:
+	CLR	LED_LINT
+	RET
+
+;-----------------------------------
+
+ROD_VER_DENTRO_ONOFF:				;Acción 12
+	JB	RV_INTO, OFF_VDENTRO
+	CLR	RV_OUTTO
+	SETB	RV_INTO
+	JB	FICHA_TIPO,LAVINT_PWM0
+	MOV	PWM0,#0x80
+	RET
+OFF_VDENTRO:
+	CLR	RV_INTO
+	RET
+
+;-----------------------------------
+
+ROD_VER_FUERA_ONOFF:				;Acción 13
+	JB	RV_OUTTO, OFF_VFUERA
+	CLR	RV_INTO
+	SETB	RV_OUTTO
+	JB	FICHA_TIPO,LAVINT_PWM0
+	MOV	PWM0,#0x80
+	RET
+
+OFF_VFUERA:
+	CLR	RV_OUTTO
+	RET
+
+;-----------------------------------
+
+ROD_HOR_ABAJO_ONOFF:				;Acción 14
+	JB	RH_DOWNTO, OFF_HABAJO
+	CLR	RH_UPTO
+	SETB	RH_DOWNTO
+	JB	FICHA_TIPO,LAVINT_PWM0
+	MOV	PWM0,#0x80
+	RET
+OFF_HABAJO:
+	CLR	RH_DOWNTO
+	RET
+
+;-----------------------------------
+
+ROD_HOR_ARRIBA_ONOFF:				;Acción 15
+	JB	RH_UPTO, OFF_HARRIBA
+	CLR	RH_DOWNTO
+	SETB	RH_UPTO
+	JB	FICHA_TIPO,LAVINT_PWM0
+	MOV	PWM0,#0x80
+	RET	
+OFF_HARRIBA:
+	CLR	RH_UPTO
+	RET
+
+;-----------------------------------
+
+LAVINT_PWM0:
+	MOV	PWM0,#0x00
+	RET
+
+;-----------------------------------
+
+OFF_TODOS_MOV_ROD_HV:				;Acción 16
+	CLR	RV_INTO
+	CLR	RV_OUTTO
+	CLR	RH_DOWNTO
+	CLR	RH_UPTO
+	RET
+	
+;-----------------------------------
+
+VENT_ONOFF:					;Acción 17
+	JB	VENTS_ON,OFF_VENT
+	JB	FICHA_TIPO,VENTINT_PWM1
+	MOV	PWM1,#0x80
+	SETB	VENTS_ON
+	RET
+VENTINT_PWM1:
+	MOV	PWM1,#0x26
+	RET
+OFF_VENT:
+	MOV	PWM1,#0xFF
+	CLR	VENTS_ON
+	RET
+
+
+;-----------------------------------
+
+SEM_VERDE_ONOFF:				;Acción 18
+	JB	SEM_VERDE, SEM_VERDE_OFF2	
+	SETB	SEM_VERDE
+	RET
+SEM_VERDE_OFF2:
+	CLR	SEM_VERDE
+	RET
+
+;-----------------------------------
+TIMER0_ISR:
+	PUSH    ACC
+    	PUSH    PSW
+
+    	MOV     TL0, #0xB0          		; Carga parte baja (TL0) para 50 ms
+    	MOV     TH0, #0x3C        		; Carga parte alta (TH0) para 50 ms
+    		
+	SETB	TICK_50ms			; Activa la bandera de 50ms
+	DEC	COUNT_1				; Decrementa el contador de 1s
+	MOV	ACC, COUNT_1			; Mete en el acumulador el valor del contador
+    	JNZ	TERMINAR_ISR   			; 20 x 50 ms = 1 segundo
+    	MOV 	COUNT_1, #20                 	; Reinicia el contador de 50 ms
+    	SETB    TICK_1               		; Activa la bandera de 1s
+
+TIME_4S:
+    	DEC     COUNT_4				; Decrementa el contador de 4s
+	MOV	ACC, COUNT_4			; Mete en el acumulador el valor del contador
+    	JNZ	TIME_5S		      		; 4 x 1 s = 4 segundos
+    	MOV 	COUNT_4, #4                     ; Reinicia el contador de 1 segundo
+    	SETB    TICK_4                        	; Activa la bandera de 4s
+
+TIME_5S:
+    	DEC     COUNT_5				; Decrementa el contador de 5s
+	MOV	ACC, COUNT_5			; Mete en el acumulador el valor del contador
+    	JNZ	TERMINAR_ISR      		; 4s + 1s = 5 segundos
+    	MOV 	COUNT_5, #5                     ; Reinicia el contador de 1 segundo
+    	SETB    TICK_5                        	; Activa la bandera de 5s
+
+TIME_30S:
+    	DEC     COUNT_30			; Decrementa el contador de 30s
+	MOV	ACC, COUNT_30			; Mete en el acumulador el valor del contador
+    	JNZ	TERMINAR_ISR      		; 6 x 5 s = 30 segundos
+    	MOV 	COUNT_30, #6                    ; Reinicia el contador de 5 segundos
+    	SETB    TICK_30                       	; Activa la bandera de 30s
+
+TIME_60S:
+    	DEC     COUNT_60			; Decrementa el contador de 60s
+	MOV	ACC, COUNT_60			; Mete en el acumulador el valor del contador
+    	JNZ	TERMINAR_ISR       		; 2 x 30 s = 60 segundos
+	MOV 	COUNT_60, #2                	; Reinicia el contador de 30 segundos
+    	SETB    TICK_60               		; Activa la bandera de 60s
+TERMINAR_ISR:
+    	POP     PSW
+    	POP     ACC
+    	RETI                                   	; Retorno de la interrupción
+
+;-----------------------------------
+END
+
+

@@ -1,0 +1,490 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+ApliWebPlataforma
+</name>
+</assembly>
+<members>
+<member name="T:ApliWebPlataforma.My.MyWebExtension">
+ <summary>
+ Módulo usado para definir las propiedades que están disponibles en el espacio de nombres My para proyectos web.
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="P:ApliWebPlataforma.My.MyWebExtension.Application">
+ <summary>
+ Devuelve información sobre la aplicación actual.
+ </summary>
+</member>
+<member name="P:ApliWebPlataforma.My.MyWebExtension.Computer">
+ <summary>
+ Devuelve información sobre el equipo host.
+ </summary>
+</member>
+<member name="P:ApliWebPlataforma.My.MyWebExtension.User">
+ <summary>
+ Devuelve información del usuario web actual.
+ </summary>
+</member>
+<member name="P:ApliWebPlataforma.My.MyWebExtension.Request">
+ <summary>
+ Devuelve un objeto Request.
+ </summary>
+</member>
+<member name="P:ApliWebPlataforma.My.MyWebExtension.Response">
+ <summary>
+ Devuelve un objeto Response.
+ </summary>
+</member>
+<member name="P:ApliWebPlataforma.My.MyWebExtension.Log">
+ <summary>
+ Devuelve el objeto de registro Asp.
+ </summary>
+</member>
+<member name="P:ApliWebPlataforma.My.MyWebExtension.WebServices">
+ <summary>
+ Proporciona acceso a los servicios Web agregados a este proyecto.
+ </summary>
+</member>
+<member name="T:ApliWebPlataforma.My.Resources.Resources">
+<summary>
+  Clase de recurso fuertemente tipado, para buscar cadenas traducidas, etc.
+</summary>
+</member>
+<member name="P:ApliWebPlataforma.My.Resources.Resources.ResourceManager">
+<summary>
+  Devuelve la instancia de ResourceManager almacenada en caché utilizada por esta clase.
+</summary>
+</member>
+<member name="P:ApliWebPlataforma.My.Resources.Resources.Culture">
+<summary>
+  Reemplaza la propiedad CurrentUICulture del subproceso actual para todas las
+  búsquedas de recursos mediante esta clase de recurso fuertemente tipado.
+</summary>
+</member>
+<member name="F:ApliWebPlataforma.ChangePassword._ChangeUserPassword">
+<summary>
+Control ChangeUserPassword.
+</summary>
+<remarks>
+Campo generado automáticamente.
+Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+<member name="F:ApliWebPlataforma.Login._RegisterHyperLink">
+<summary>
+Control RegisterHyperLink.
+</summary>
+<remarks>
+Campo generado automáticamente.
+Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+<member name="F:ApliWebPlataforma.Login._LoginUser">
+<summary>
+Control LoginUser.
+</summary>
+<remarks>
+Campo generado automáticamente.
+Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+<member name="F:ApliWebPlataforma.Register._RegisterUser">
+<summary>
+Control RegisterUser.
+</summary>
+<remarks>
+Campo generado automáticamente.
+Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+<member name="F:ApliWebPlataforma.Register._RegisterUserWizardStep">
+<summary>
+Control RegisterUserWizardStep.
+</summary>
+<remarks>
+Campo generado automáticamente.
+Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+<member name="F:ApliWebPlataforma.FormularioFuncionesADM._usuarioEstado">
+<summary>
+Control usuarioEstado.
+</summary>
+<remarks>
+Campo generado automáticamente.
+Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+<member name="F:ApliWebPlataforma.FormularioFuncionesADM._AccessDataSource1">
+<summary>
+Control AccessDataSource1.
+</summary>
+<remarks>
+Campo generado automáticamente.
+Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+<member name="F:ApliWebPlataforma.FormularioFuncionesADM._cambiarEstadoSocio">
+<summary>
+Control cambiarEstadoSocio.
+</summary>
+<remarks>
+Campo generado automáticamente.
+Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+<member name="F:ApliWebPlataforma.FormularioFuncionesADM._DataList1">
+<summary>
+Control DataList1.
+</summary>
+<remarks>
+Campo generado automáticamente.
+Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+<member name="F:ApliWebPlataforma.FormularioFuncionesADM._AccessDataSource2">
+<summary>
+Control AccessDataSource2.
+</summary>
+<remarks>
+Campo generado automáticamente.
+Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+<member name="F:ApliWebPlataforma.FormularioFuncionesADM._mostrarDatosSocio">
+<summary>
+Control mostrarDatosSocio.
+</summary>
+<remarks>
+Campo generado automáticamente.
+Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+<member name="F:ApliWebPlataforma.FormularioFuncionesADM._codPeliculaAlta">
+<summary>
+Control codPeliculaAlta.
+</summary>
+<remarks>
+Campo generado automáticamente.
+Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+<member name="F:ApliWebPlataforma.FormularioFuncionesADM._DarDeAltaPeli">
+<summary>
+Control DarDeAltaPeli.
+</summary>
+<remarks>
+Campo generado automáticamente.
+Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+<member name="F:ApliWebPlataforma.FormularioFuncionesADM._titPeliculaAlta">
+<summary>
+Control titPeliculaAlta.
+</summary>
+<remarks>
+Campo generado automáticamente.
+Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+<member name="F:ApliWebPlataforma.FormularioFuncionesADM._codPeliculaBaja">
+<summary>
+Control codPeliculaBaja.
+</summary>
+<remarks>
+Campo generado automáticamente.
+Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+<member name="F:ApliWebPlataforma.FormularioFuncionesADM._DarDeBajaPeli">
+<summary>
+Control DarDeBajaPeli.
+</summary>
+<remarks>
+Campo generado automáticamente.
+Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+<member name="F:ApliWebPlataforma.FormularioFuncionesADM._DataList2">
+<summary>
+Control DataList2.
+</summary>
+<remarks>
+Campo generado automáticamente.
+Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+<member name="F:ApliWebPlataforma.FormularioFuncionesADM._AccessDataSource3">
+<summary>
+Control AccessDataSource3.
+</summary>
+<remarks>
+Campo generado automáticamente.
+Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+<member name="F:ApliWebPlataforma.FormularioFuncionesADM._mostrarDatosPeli">
+<summary>
+Control mostrarDatosPeli.
+</summary>
+<remarks>
+Campo generado automáticamente.
+Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+<member name="F:ApliWebPlataforma.FormularioFuncionesADM._VolverPrincipal">
+<summary>
+Control VolverPrincipal.
+</summary>
+<remarks>
+Campo generado automáticamente.
+Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+<member name="F:ApliWebPlataforma.FormularioFuncionesUSUARIO._Nombre">
+<summary>
+Control Nombre.
+</summary>
+<remarks>
+Campo generado automáticamente.
+Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+<member name="F:ApliWebPlataforma.FormularioFuncionesUSUARIO._Modificar">
+<summary>
+Control Modificar.
+</summary>
+<remarks>
+Campo generado automáticamente.
+Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+<member name="F:ApliWebPlataforma.FormularioFuncionesUSUARIO._Direccion">
+<summary>
+Control Direccion.
+</summary>
+<remarks>
+Campo generado automáticamente.
+Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+<member name="F:ApliWebPlataforma.FormularioFuncionesUSUARIO._cantidadEuros">
+<summary>
+Control cantidadEuros.
+</summary>
+<remarks>
+Campo generado automáticamente.
+Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+<member name="F:ApliWebPlataforma.FormularioFuncionesUSUARIO._Aumentar">
+<summary>
+Control Aumentar.
+</summary>
+<remarks>
+Campo generado automáticamente.
+Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+<member name="F:ApliWebPlataforma.FormularioFuncionesUSUARIO._codigoAlquilar">
+<summary>
+Control codigoAlquilar.
+</summary>
+<remarks>
+Campo generado automáticamente.
+Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+<member name="F:ApliWebPlataforma.FormularioFuncionesUSUARIO._AccessDataSource1">
+<summary>
+Control AccessDataSource1.
+</summary>
+<remarks>
+Campo generado automáticamente.
+Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+<member name="F:ApliWebPlataforma.FormularioFuncionesUSUARIO._Alquilar">
+<summary>
+Control Alquilar.
+</summary>
+<remarks>
+Campo generado automáticamente.
+Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+<member name="F:ApliWebPlataforma.FormularioFuncionesUSUARIO._codigoDevolver">
+<summary>
+Control codigoDevolver.
+</summary>
+<remarks>
+Campo generado automáticamente.
+Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+<member name="F:ApliWebPlataforma.FormularioFuncionesUSUARIO._AccessDataSource2">
+<summary>
+Control AccessDataSource2.
+</summary>
+<remarks>
+Campo generado automáticamente.
+Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+<member name="F:ApliWebPlataforma.FormularioFuncionesUSUARIO._Devolver">
+<summary>
+Control Devolver.
+</summary>
+<remarks>
+Campo generado automáticamente.
+Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+<member name="F:ApliWebPlataforma.FormularioFuncionesUSUARIO._VolverPrincipal">
+<summary>
+Control VolverPrincipal.
+</summary>
+<remarks>
+Campo generado automáticamente.
+Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+<member name="F:ApliWebPlataforma.FormVerPELICULAS._GridView1">
+<summary>
+Control GridView1.
+</summary>
+<remarks>
+Campo generado automáticamente.
+Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+<member name="F:ApliWebPlataforma.FormVerPELICULAS._AccessDataSource2">
+<summary>
+Control AccessDataSource2.
+</summary>
+<remarks>
+Campo generado automáticamente.
+Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+<member name="F:ApliWebPlataforma.FormVerPELICULAS._Fecha">
+<summary>
+Control Fecha.
+</summary>
+<remarks>
+Campo generado automáticamente.
+Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+<member name="F:ApliWebPlataforma.FormVerPELICULAS._GridView2">
+<summary>
+Control GridView2.
+</summary>
+<remarks>
+Campo generado automáticamente.
+Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+<member name="F:ApliWebPlataforma.FormVerPELICULAS._AccessDataSource1">
+<summary>
+Control AccessDataSource1.
+</summary>
+<remarks>
+Campo generado automáticamente.
+Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+<member name="F:ApliWebPlataforma.Site._HeadContent">
+<summary>
+Control HeadContent.
+</summary>
+<remarks>
+Campo generado automáticamente.
+Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+<member name="F:ApliWebPlataforma.Site._HeadLoginView">
+<summary>
+Control HeadLoginView.
+</summary>
+<remarks>
+Campo generado automáticamente.
+Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+<member name="F:ApliWebPlataforma.Site._NavigationMenu">
+<summary>
+Control NavigationMenu.
+</summary>
+<remarks>
+Campo generado automáticamente.
+Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+<member name="F:ApliWebPlataforma.Site._MainContent">
+<summary>
+Control MainContent.
+</summary>
+<remarks>
+Campo generado automáticamente.
+Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+<member name="F:ApliWebPlataforma.WebForm1._GridView1">
+<summary>
+Control GridView1.
+</summary>
+<remarks>
+Campo generado automáticamente.
+Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+<member name="F:ApliWebPlataforma.WebForm1._AccessDataSource1">
+<summary>
+Control AccessDataSource1.
+</summary>
+<remarks>
+Campo generado automáticamente.
+Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+<member name="F:ApliWebPlataforma.WebForm2._GridView1">
+<summary>
+Control GridView1.
+</summary>
+<remarks>
+Campo generado automáticamente.
+Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+<member name="F:ApliWebPlataforma.WebForm2._AccessDataSource1">
+<summary>
+Control AccessDataSource1.
+</summary>
+<remarks>
+Campo generado automáticamente.
+Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+<member name="F:ApliWebPlataforma.WebForm3._GridView1">
+<summary>
+Control GridView1.
+</summary>
+<remarks>
+Campo generado automáticamente.
+Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+<member name="F:ApliWebPlataforma.WebForm3._AccessDataSource1">
+<summary>
+Control AccessDataSource1.
+</summary>
+<remarks>
+Campo generado automáticamente.
+Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+</members>
+</doc>

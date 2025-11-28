@@ -1,0 +1,55 @@
+D:\BD 3 GO 2023\BD PROYECTO 2023\ApliWebPlataformaStreamingINIAccess2023\ApliWebVideoClub\bin\ApliWebVideoClub.dll.config
+D:\BD 3 GO 2023\BD PROYECTO 2023\ApliWebPlataformaStreamingINIAccess2023\ApliWebVideoClub\bin\ApliWebVideoClub.dll
+D:\BD 3 GO 2023\BD PROYECTO 2023\ApliWebPlataformaStreamingINIAccess2023\ApliWebVideoClub\bin\ApliWebVideoClub.pdb
+D:\BD 3 GO 2023\BD PROYECTO 2023\ApliWebPlataformaStreamingINIAccess2023\ApliWebVideoClub\bin\ApliWebVideoClub.xml
+D:\BD 3 GO 2023\BD PROYECTO 2023\ApliWebPlataformaStreamingINIAccess2023\ApliWebVideoClub\obj\Debug\ApliWebPlataforma.vbprojAssemblyReference.cache
+D:\BD 3 GO 2023\BD PROYECTO 2023\ApliWebPlataformaStreamingINIAccess2023\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.Resources.resources
+D:\BD 3 GO 2023\BD PROYECTO 2023\ApliWebPlataformaStreamingINIAccess2023\ApliWebVideoClub\obj\Debug\ApliWebPlataforma.vbproj.GenerateResource.cache
+D:\BD 3 GO 2023\BD PROYECTO 2023\ApliWebPlataformaStreamingINIAccess2023\ApliWebVideoClub\obj\Debug\ApliWebPlataforma.vbproj.CoreCompileInputs.cache
+D:\BD 3 GO 2023\BD PROYECTO 2023\ApliWebPlataformaStreamingINIAccess2023\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.dll
+D:\BD 3 GO 2023\BD PROYECTO 2023\ApliWebPlataformaStreamingINIAccess2023\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.xml
+D:\BD 3 GO 2023\BD PROYECTO 2023\ApliWebPlataformaStreamingINIAccess2023\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.pdb
+D:\BD 3 GO 2023\BD PROYECTO 2023\ApliWebPlataformaStreamingINIAccess2023\ApliWebPlataforma\obj\Debug\ApliWebPlataforma.vbprojAssemblyReference.cache
+D:\BD 3 GO 2023\BD PROYECTO 2023\ApliWebPlataformaStreamingINIAccess2023\ApliWebPlataforma\obj\Debug\ApliWebPlataforma.Resources.resources
+D:\BD 3 GO 2023\BD PROYECTO 2023\ApliWebPlataformaStreamingINIAccess2023\ApliWebPlataforma\obj\Debug\ApliWebPlataforma.vbproj.GenerateResource.cache
+D:\BD 3 GO 2023\BD PROYECTO 2023\ApliWebPlataformaStreamingINIAccess2023\ApliWebPlataforma\obj\Debug\ApliWebPlataforma.vbproj.CoreCompileInputs.cache
+D:\BD 3 GO 2023\BD PROYECTO 2023\ApliWebPlataformaStreamingINIAccess2023\ApliWebPlataforma\bin\ApliWebPlataforma.dll.config
+D:\BD 3 GO 2023\BD PROYECTO 2023\ApliWebPlataformaStreamingINIAccess2023\ApliWebPlataforma\bin\ApliWebPlataforma.dll
+D:\BD 3 GO 2023\BD PROYECTO 2023\ApliWebPlataformaStreamingINIAccess2023\ApliWebPlataforma\bin\ApliWebPlataforma.pdb
+D:\BD 3 GO 2023\BD PROYECTO 2023\ApliWebPlataformaStreamingINIAccess2023\ApliWebPlataforma\bin\ApliWebPlataforma.xml
+D:\BD 3 GO 2023\BD PROYECTO 2023\ApliWebPlataformaStreamingINIAccess2023\ApliWebPlataforma\obj\Debug\ApliWebPlataforma.dll
+D:\BD 3 GO 2023\BD PROYECTO 2023\ApliWebPlataformaStreamingINIAccess2023\ApliWebPlataforma\obj\Debug\ApliWebPlataforma.xml
+D:\BD 3 GO 2023\BD PROYECTO 2023\ApliWebPlataformaStreamingINIAccess2023\ApliWebPlataforma\obj\Debug\ApliWebPlataforma.pdb
+C:\Users\mapprgac\Desktop\ApliWebPlataformaStreamingINIAccess2025\ApliWebPlataforma\bin\ApliWebPlataforma.dll.config
+C:\Users\mapprgac\Desktop\ApliWebPlataformaStreamingINIAccess2025\ApliWebPlataforma\bin\ApliWebPlataforma.dll
+C:\Users\mapprgac\Desktop\ApliWebPlataformaStreamingINIAccess2025\ApliWebPlataforma\bin\ApliWebPlataforma.pdb
+C:\Users\mapprgac\Desktop\ApliWebPlataformaStreamingINIAccess2025\ApliWebPlataforma\bin\ApliWebPlataforma.xml
+C:\Users\mapprgac\Desktop\ApliWebPlataformaStreamingINIAccess2025\ApliWebPlataforma\obj\Debug\ApliWebPlataforma.vbproj.AssemblyReference.cache
+C:\Users\mapprgac\Desktop\ApliWebPlataformaStreamingINIAccess2025\ApliWebPlataforma\obj\Debug\ApliWebPlataforma.Resources.resources
+C:\Users\mapprgac\Desktop\ApliWebPlataformaStreamingINIAccess2025\ApliWebPlataforma\obj\Debug\ApliWebPlataforma.vbproj.GenerateResource.cache
+C:\Users\mapprgac\Desktop\ApliWebPlataformaStreamingINIAccess2025\ApliWebPlataforma\obj\Debug\ApliWebPlataforma.vbproj.CoreCompileInputs.cache
+C:\Users\mapprgac\Desktop\ApliWebPlataformaStreamingINIAccess2025\ApliWebPlataforma\obj\Debug\ApliWebPlataforma.dll
+C:\Users\mapprgac\Desktop\ApliWebPlataformaStreamingINIAccess2025\ApliWebPlataforma\obj\Debug\ApliWebPlataforma.xml
+C:\Users\mapprgac\Desktop\ApliWebPlataformaStreamingINIAccess2025\ApliWebPlataforma\obj\Debug\ApliWebPlataforma.pdb
+C:\Users\remag\Downloads\ApliWebPlataformaStreamingINIAccess2025\ApliWebPlataformaStreamingINIAccess2025\ApliWebPlataforma\bin\ApliWebPlataforma.dll.config
+C:\Users\remag\Downloads\ApliWebPlataformaStreamingINIAccess2025\ApliWebPlataformaStreamingINIAccess2025\ApliWebPlataforma\bin\ApliWebPlataforma.dll
+C:\Users\remag\Downloads\ApliWebPlataformaStreamingINIAccess2025\ApliWebPlataformaStreamingINIAccess2025\ApliWebPlataforma\bin\ApliWebPlataforma.pdb
+C:\Users\remag\Downloads\ApliWebPlataformaStreamingINIAccess2025\ApliWebPlataformaStreamingINIAccess2025\ApliWebPlataforma\bin\ApliWebPlataforma.xml
+C:\Users\remag\Downloads\ApliWebPlataformaStreamingINIAccess2025\ApliWebPlataformaStreamingINIAccess2025\ApliWebPlataforma\obj\Debug\ApliWebPlataforma.vbproj.AssemblyReference.cache
+C:\Users\remag\Downloads\ApliWebPlataformaStreamingINIAccess2025\ApliWebPlataformaStreamingINIAccess2025\ApliWebPlataforma\obj\Debug\ApliWebPlataforma.Resources.resources
+C:\Users\remag\Downloads\ApliWebPlataformaStreamingINIAccess2025\ApliWebPlataformaStreamingINIAccess2025\ApliWebPlataforma\obj\Debug\ApliWebPlataforma.vbproj.GenerateResource.cache
+C:\Users\remag\Downloads\ApliWebPlataformaStreamingINIAccess2025\ApliWebPlataformaStreamingINIAccess2025\ApliWebPlataforma\obj\Debug\ApliWebPlataforma.vbproj.CoreCompileInputs.cache
+C:\Users\remag\Downloads\ApliWebPlataformaStreamingINIAccess2025\ApliWebPlataformaStreamingINIAccess2025\ApliWebPlataforma\obj\Debug\ApliWebPlataforma.dll
+C:\Users\remag\Downloads\ApliWebPlataformaStreamingINIAccess2025\ApliWebPlataformaStreamingINIAccess2025\ApliWebPlataforma\obj\Debug\ApliWebPlataforma.xml
+C:\Users\remag\Downloads\ApliWebPlataformaStreamingINIAccess2025\ApliWebPlataformaStreamingINIAccess2025\ApliWebPlataforma\obj\Debug\ApliWebPlataforma.pdb
+C:\Temp\ApliWebPlataforma_Castro_Fernandez_Y_Fernandez\ApliWebPlataforma\bin\ApliWebPlataforma.dll.config
+C:\Temp\ApliWebPlataforma_Castro_Fernandez_Y_Fernandez\ApliWebPlataforma\bin\ApliWebPlataforma.dll
+C:\Temp\ApliWebPlataforma_Castro_Fernandez_Y_Fernandez\ApliWebPlataforma\bin\ApliWebPlataforma.pdb
+C:\Temp\ApliWebPlataforma_Castro_Fernandez_Y_Fernandez\ApliWebPlataforma\bin\ApliWebPlataforma.xml
+C:\Temp\ApliWebPlataforma_Castro_Fernandez_Y_Fernandez\ApliWebPlataforma\obj\Debug\ApliWebPlataforma.vbproj.AssemblyReference.cache
+C:\Temp\ApliWebPlataforma_Castro_Fernandez_Y_Fernandez\ApliWebPlataforma\obj\Debug\ApliWebPlataforma.Resources.resources
+C:\Temp\ApliWebPlataforma_Castro_Fernandez_Y_Fernandez\ApliWebPlataforma\obj\Debug\ApliWebPlataforma.vbproj.GenerateResource.cache
+C:\Temp\ApliWebPlataforma_Castro_Fernandez_Y_Fernandez\ApliWebPlataforma\obj\Debug\ApliWebPlataforma.vbproj.CoreCompileInputs.cache
+C:\Temp\ApliWebPlataforma_Castro_Fernandez_Y_Fernandez\ApliWebPlataforma\obj\Debug\ApliWebPlataforma.dll
+C:\Temp\ApliWebPlataforma_Castro_Fernandez_Y_Fernandez\ApliWebPlataforma\obj\Debug\ApliWebPlataforma.xml
+C:\Temp\ApliWebPlataforma_Castro_Fernandez_Y_Fernandez\ApliWebPlataforma\obj\Debug\ApliWebPlataforma.pdb

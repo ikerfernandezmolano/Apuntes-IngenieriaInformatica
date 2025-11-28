@@ -1,0 +1,111 @@
+C:\Documents and Settings\conchi\Escritorio\ApliWebVideoClub\ApliWebVideoClub\bin\ApliWebVideoClub.dll
+C:\Documents and Settings\conchi\Escritorio\ApliWebVideoClub\ApliWebVideoClub\bin\ApliWebVideoClub.pdb
+C:\Documents and Settings\conchi\Escritorio\ApliWebVideoClub\ApliWebVideoClub\bin\ApliWebVideoClub.xml
+C:\Documents and Settings\conchi\Escritorio\ApliWebVideoClub\ApliWebVideoClub\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\conchi\Escritorio\ApliWebVideoClub\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.Resources.resources
+C:\Documents and Settings\conchi\Escritorio\ApliWebVideoClub\ApliWebVideoClub\obj\Debug\GenerateResource.read.1.tlog
+C:\Documents and Settings\conchi\Escritorio\ApliWebVideoClub\ApliWebVideoClub\obj\Debug\GenerateResource.write.1.tlog
+C:\Documents and Settings\conchi\Escritorio\ApliWebVideoClub\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.dll
+C:\Documents and Settings\conchi\Escritorio\ApliWebVideoClub\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.xml
+C:\Documents and Settings\conchi\Escritorio\ApliWebVideoClub\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.pdb
+F:\PARA PASAR A TABLET\de BD\ApliWebVideoClub\ApliWebVideoClub\bin\ApliWebVideoClub.dll
+F:\PARA PASAR A TABLET\de BD\ApliWebVideoClub\ApliWebVideoClub\bin\ApliWebVideoClub.pdb
+F:\PARA PASAR A TABLET\de BD\ApliWebVideoClub\ApliWebVideoClub\bin\ApliWebVideoClub.xml
+F:\PARA PASAR A TABLET\de BD\ApliWebVideoClub\ApliWebVideoClub\obj\Debug\ResolveAssemblyReference.cache
+F:\PARA PASAR A TABLET\de BD\ApliWebVideoClub\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.Resources.resources
+F:\PARA PASAR A TABLET\de BD\ApliWebVideoClub\ApliWebVideoClub\obj\Debug\GenerateResource.read.1.tlog
+F:\PARA PASAR A TABLET\de BD\ApliWebVideoClub\ApliWebVideoClub\obj\Debug\GenerateResource.write.1.tlog
+F:\PARA PASAR A TABLET\de BD\ApliWebVideoClub\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.dll
+F:\PARA PASAR A TABLET\de BD\ApliWebVideoClub\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.xml
+F:\PARA PASAR A TABLET\de BD\ApliWebVideoClub\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.pdb
+F:\PARA PASAR A TABLET\de BD\PRACTICA VIDEOCLUBWEB\ApliWebVideoClubTODO\ApliWebVideoClub\bin\ApliWebVideoClub.dll
+F:\PARA PASAR A TABLET\de BD\PRACTICA VIDEOCLUBWEB\ApliWebVideoClubTODO\ApliWebVideoClub\bin\ApliWebVideoClub.pdb
+F:\PARA PASAR A TABLET\de BD\PRACTICA VIDEOCLUBWEB\ApliWebVideoClubTODO\ApliWebVideoClub\bin\ApliWebVideoClub.xml
+F:\PARA PASAR A TABLET\de BD\PRACTICA VIDEOCLUBWEB\ApliWebVideoClubTODO\ApliWebVideoClub\obj\Debug\ResolveAssemblyReference.cache
+F:\PARA PASAR A TABLET\de BD\PRACTICA VIDEOCLUBWEB\ApliWebVideoClubTODO\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.Resources.resources
+F:\PARA PASAR A TABLET\de BD\PRACTICA VIDEOCLUBWEB\ApliWebVideoClubTODO\ApliWebVideoClub\obj\Debug\GenerateResource.read.1.tlog
+F:\PARA PASAR A TABLET\de BD\PRACTICA VIDEOCLUBWEB\ApliWebVideoClubTODO\ApliWebVideoClub\obj\Debug\GenerateResource.write.1.tlog
+F:\PARA PASAR A TABLET\de BD\PRACTICA VIDEOCLUBWEB\ApliWebVideoClubTODO\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.dll
+F:\PARA PASAR A TABLET\de BD\PRACTICA VIDEOCLUBWEB\ApliWebVideoClubTODO\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.xml
+F:\PARA PASAR A TABLET\de BD\PRACTICA VIDEOCLUBWEB\ApliWebVideoClubTODO\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.pdb
+F:\PARA PASAR A TABLET\de BD\PRACTICA VIDEOCLUBWEB\VC_ALUMNOS\ApliWebVideoClubINI\ApliWebVideoClub\bin\ApliWebVideoClub.dll
+F:\PARA PASAR A TABLET\de BD\PRACTICA VIDEOCLUBWEB\VC_ALUMNOS\ApliWebVideoClubINI\ApliWebVideoClub\bin\ApliWebVideoClub.pdb
+F:\PARA PASAR A TABLET\de BD\PRACTICA VIDEOCLUBWEB\VC_ALUMNOS\ApliWebVideoClubINI\ApliWebVideoClub\bin\ApliWebVideoClub.xml
+F:\PARA PASAR A TABLET\de BD\PRACTICA VIDEOCLUBWEB\VC_ALUMNOS\ApliWebVideoClubINI\ApliWebVideoClub\obj\Debug\ResolveAssemblyReference.cache
+F:\PARA PASAR A TABLET\de BD\PRACTICA VIDEOCLUBWEB\VC_ALUMNOS\ApliWebVideoClubINI\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.Resources.resources
+F:\PARA PASAR A TABLET\de BD\PRACTICA VIDEOCLUBWEB\VC_ALUMNOS\ApliWebVideoClubINI\ApliWebVideoClub\obj\Debug\GenerateResource.read.1.tlog
+F:\PARA PASAR A TABLET\de BD\PRACTICA VIDEOCLUBWEB\VC_ALUMNOS\ApliWebVideoClubINI\ApliWebVideoClub\obj\Debug\GenerateResource.write.1.tlog
+F:\PARA PASAR A TABLET\de BD\PRACTICA VIDEOCLUBWEB\VC_ALUMNOS\ApliWebVideoClubINI\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.dll
+F:\PARA PASAR A TABLET\de BD\PRACTICA VIDEOCLUBWEB\VC_ALUMNOS\ApliWebVideoClubINI\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.xml
+F:\PARA PASAR A TABLET\de BD\PRACTICA VIDEOCLUBWEB\VC_ALUMNOS\ApliWebVideoClubINI\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.pdb
+C:\Users\Instalador\Desktop\2014_15PROYECTO VIDEOCLUBWEB\2014_15VC_ALUMNOS\ApliWebVideoClubINI\ApliWebVideoClub\bin\ApliWebVideoClub.dll
+C:\Users\Instalador\Desktop\2014_15PROYECTO VIDEOCLUBWEB\2014_15VC_ALUMNOS\ApliWebVideoClubINI\ApliWebVideoClub\bin\ApliWebVideoClub.pdb
+C:\Users\Instalador\Desktop\2014_15PROYECTO VIDEOCLUBWEB\2014_15VC_ALUMNOS\ApliWebVideoClubINI\ApliWebVideoClub\bin\ApliWebVideoClub.xml
+C:\Users\Instalador\Desktop\2014_15PROYECTO VIDEOCLUBWEB\2014_15VC_ALUMNOS\ApliWebVideoClubINI\ApliWebVideoClub\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Instalador\Desktop\2014_15PROYECTO VIDEOCLUBWEB\2014_15VC_ALUMNOS\ApliWebVideoClubINI\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.Resources.resources
+C:\Users\Instalador\Desktop\2014_15PROYECTO VIDEOCLUBWEB\2014_15VC_ALUMNOS\ApliWebVideoClubINI\ApliWebVideoClub\obj\Debug\GenerateResource.read.1.tlog
+C:\Users\Instalador\Desktop\2014_15PROYECTO VIDEOCLUBWEB\2014_15VC_ALUMNOS\ApliWebVideoClubINI\ApliWebVideoClub\obj\Debug\GenerateResource.write.1.tlog
+C:\Users\Instalador\Desktop\2014_15PROYECTO VIDEOCLUBWEB\2014_15VC_ALUMNOS\ApliWebVideoClubINI\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.dll
+C:\Users\Instalador\Desktop\2014_15PROYECTO VIDEOCLUBWEB\2014_15VC_ALUMNOS\ApliWebVideoClubINI\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.xml
+C:\Users\Instalador\Desktop\2014_15PROYECTO VIDEOCLUBWEB\2014_15VC_ALUMNOS\ApliWebVideoClubINI\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.pdb
+C:\Users\mapprgac\Desktop\2014_15VC_ALUMNOS\ApliWebVideoClubINI\ApliWebVideoClub\bin\ApliWebVideoClub.dll
+C:\Users\mapprgac\Desktop\2014_15VC_ALUMNOS\ApliWebVideoClubINI\ApliWebVideoClub\bin\ApliWebVideoClub.pdb
+C:\Users\mapprgac\Desktop\2014_15VC_ALUMNOS\ApliWebVideoClubINI\ApliWebVideoClub\bin\ApliWebVideoClub.xml
+C:\Users\mapprgac\Desktop\2014_15VC_ALUMNOS\ApliWebVideoClubINI\ApliWebVideoClub\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\mapprgac\Desktop\2014_15VC_ALUMNOS\ApliWebVideoClubINI\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.Resources.resources
+C:\Users\mapprgac\Desktop\2014_15VC_ALUMNOS\ApliWebVideoClubINI\ApliWebVideoClub\obj\Debug\GenerateResource.read.1.tlog
+C:\Users\mapprgac\Desktop\2014_15VC_ALUMNOS\ApliWebVideoClubINI\ApliWebVideoClub\obj\Debug\GenerateResource.write.1.tlog
+C:\Users\mapprgac\Desktop\2014_15VC_ALUMNOS\ApliWebVideoClubINI\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.dll
+C:\Users\mapprgac\Desktop\2014_15VC_ALUMNOS\ApliWebVideoClubINI\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.xml
+C:\Users\mapprgac\Desktop\2014_15VC_ALUMNOS\ApliWebVideoClubINI\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.pdb
+C:\Users\mapprgac\Desktop\ApliWebAccess20150320\ApliWebVideoClubINIAccess\ApliWebVideoClub\bin\ApliWebVideoClub.dll
+C:\Users\mapprgac\Desktop\ApliWebAccess20150320\ApliWebVideoClubINIAccess\ApliWebVideoClub\bin\ApliWebVideoClub.pdb
+C:\Users\mapprgac\Desktop\ApliWebAccess20150320\ApliWebVideoClubINIAccess\ApliWebVideoClub\bin\ApliWebVideoClub.xml
+C:\Users\mapprgac\Desktop\ApliWebAccess20150320\ApliWebVideoClubINIAccess\ApliWebVideoClub\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\mapprgac\Desktop\ApliWebAccess20150320\ApliWebVideoClubINIAccess\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.Resources.resources
+C:\Users\mapprgac\Desktop\ApliWebAccess20150320\ApliWebVideoClubINIAccess\ApliWebVideoClub\obj\Debug\GenerateResource.read.1.tlog
+C:\Users\mapprgac\Desktop\ApliWebAccess20150320\ApliWebVideoClubINIAccess\ApliWebVideoClub\obj\Debug\GenerateResource.write.1.tlog
+C:\Users\mapprgac\Desktop\ApliWebAccess20150320\ApliWebVideoClubINIAccess\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.dll
+C:\Users\mapprgac\Desktop\ApliWebAccess20150320\ApliWebVideoClubINIAccess\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.xml
+C:\Users\mapprgac\Desktop\ApliWebAccess20150320\ApliWebVideoClubINIAccess\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.pdb
+G:\0 clases Proyecto\BD VC_Access\INICIAL_ACCESS_CON_BD\ApliWebVideoClubINIAccess2016_17\ApliWebVideoClub\bin\ApliWebVideoClub.dll
+G:\0 clases Proyecto\BD VC_Access\INICIAL_ACCESS_CON_BD\ApliWebVideoClubINIAccess2016_17\ApliWebVideoClub\bin\ApliWebVideoClub.pdb
+G:\0 clases Proyecto\BD VC_Access\INICIAL_ACCESS_CON_BD\ApliWebVideoClubINIAccess2016_17\ApliWebVideoClub\bin\ApliWebVideoClub.xml
+G:\0 clases Proyecto\BD VC_Access\INICIAL_ACCESS_CON_BD\ApliWebVideoClubINIAccess2016_17\ApliWebVideoClub\obj\Debug\ResolveAssemblyReference.cache
+G:\0 clases Proyecto\BD VC_Access\INICIAL_ACCESS_CON_BD\ApliWebVideoClubINIAccess2016_17\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.Resources.resources
+G:\0 clases Proyecto\BD VC_Access\INICIAL_ACCESS_CON_BD\ApliWebVideoClubINIAccess2016_17\ApliWebVideoClub\obj\Debug\GenerateResource.read.1.tlog
+G:\0 clases Proyecto\BD VC_Access\INICIAL_ACCESS_CON_BD\ApliWebVideoClubINIAccess2016_17\ApliWebVideoClub\obj\Debug\GenerateResource.write.1.tlog
+G:\0 clases Proyecto\BD VC_Access\INICIAL_ACCESS_CON_BD\ApliWebVideoClubINIAccess2016_17\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.dll
+G:\0 clases Proyecto\BD VC_Access\INICIAL_ACCESS_CON_BD\ApliWebVideoClubINIAccess2016_17\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.xml
+G:\0 clases Proyecto\BD VC_Access\INICIAL_ACCESS_CON_BD\ApliWebVideoClubINIAccess2016_17\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.pdb
+C:\Users\mapprgac\Desktop\ApliWebVideoClubINIAccess2016_17\ApliWebVideoClub\bin\ApliWebVideoClub.dll.config
+C:\Users\mapprgac\Desktop\ApliWebVideoClubINIAccess2016_17\ApliWebVideoClub\bin\ApliWebVideoClub.dll
+C:\Users\mapprgac\Desktop\ApliWebVideoClubINIAccess2016_17\ApliWebVideoClub\bin\ApliWebVideoClub.pdb
+C:\Users\mapprgac\Desktop\ApliWebVideoClubINIAccess2016_17\ApliWebVideoClub\bin\ApliWebVideoClub.xml
+C:\Users\mapprgac\Desktop\ApliWebVideoClubINIAccess2016_17\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.Resources.resources
+C:\Users\mapprgac\Desktop\ApliWebVideoClubINIAccess2016_17\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.vbproj.GenerateResource.Cache
+C:\Users\mapprgac\Desktop\ApliWebVideoClubINIAccess2016_17\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.dll
+C:\Users\mapprgac\Desktop\ApliWebVideoClubINIAccess2016_17\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.xml
+C:\Users\mapprgac\Desktop\ApliWebVideoClubINIAccess2016_17\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.pdb
+C:\Users\mapprgac\Downloads\ApliWebVideoClubINIAccess2017_18\ApliWebVideoClub\bin\ApliWebVideoClub.dll.config
+C:\Users\mapprgac\Downloads\ApliWebVideoClubINIAccess2017_18\ApliWebVideoClub\bin\ApliWebVideoClub.dll
+C:\Users\mapprgac\Downloads\ApliWebVideoClubINIAccess2017_18\ApliWebVideoClub\bin\ApliWebVideoClub.pdb
+C:\Users\mapprgac\Downloads\ApliWebVideoClubINIAccess2017_18\ApliWebVideoClub\bin\ApliWebVideoClub.xml
+C:\Users\mapprgac\Downloads\ApliWebVideoClubINIAccess2017_18\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.vbprojResolveAssemblyReference.cache
+C:\Users\mapprgac\Downloads\ApliWebVideoClubINIAccess2017_18\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.Resources.resources
+C:\Users\mapprgac\Downloads\ApliWebVideoClubINIAccess2017_18\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.vbproj.GenerateResource.Cache
+C:\Users\mapprgac\Downloads\ApliWebVideoClubINIAccess2017_18\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.vbproj.CoreCompileInputs.cache
+C:\Users\mapprgac\Downloads\ApliWebVideoClubINIAccess2017_18\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.dll
+C:\Users\mapprgac\Downloads\ApliWebVideoClubINIAccess2017_18\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.xml
+C:\Users\mapprgac\Downloads\ApliWebVideoClubINIAccess2017_18\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.pdb
+C:\Users\mapprgac\Desktop\ApliWebVideoClubINIAccess2017_18\ApliWebVideoClub\bin\ApliWebVideoClub.dll.config
+C:\Users\mapprgac\Desktop\ApliWebVideoClubINIAccess2017_18\ApliWebVideoClub\bin\ApliWebVideoClub.dll
+C:\Users\mapprgac\Desktop\ApliWebVideoClubINIAccess2017_18\ApliWebVideoClub\bin\ApliWebVideoClub.pdb
+C:\Users\mapprgac\Desktop\ApliWebVideoClubINIAccess2017_18\ApliWebVideoClub\bin\ApliWebVideoClub.xml
+C:\Users\mapprgac\Desktop\ApliWebVideoClubINIAccess2017_18\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.vbprojResolveAssemblyReference.cache
+C:\Users\mapprgac\Desktop\ApliWebVideoClubINIAccess2017_18\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.Resources.resources
+C:\Users\mapprgac\Desktop\ApliWebVideoClubINIAccess2017_18\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.vbproj.GenerateResource.Cache
+C:\Users\mapprgac\Desktop\ApliWebVideoClubINIAccess2017_18\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.vbproj.CoreCompileInputs.cache
+C:\Users\mapprgac\Desktop\ApliWebVideoClubINIAccess2017_18\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.dll
+C:\Users\mapprgac\Desktop\ApliWebVideoClubINIAccess2017_18\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.xml
+C:\Users\mapprgac\Desktop\ApliWebVideoClubINIAccess2017_18\ApliWebVideoClub\obj\Debug\ApliWebVideoClub.pdb
