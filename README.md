@@ -2,7 +2,7 @@
 
 Apuntes de **Iker Fernández** para **Ingeniería Informática de Gestión y Sistemas de Información**, **UPV-EHU**.
 
-# Notas
+## Notas
 
-- Puede y es probable que haya fallos, no tomes de manera literal todo. Como consejo usalo como complemento.
-- Iré subiendo apuntes/labos según pueda.
+- Puede y es probable que haya fallos, usalo como complemento y fuente de información.
+- No plagies los proyectos, informes, etc.
