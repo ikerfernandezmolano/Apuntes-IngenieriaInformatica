@@ -28,6 +28,6 @@ Este repositorio contiene apuntes personales, ejercicios resuletos y ejemplos de
 
 ---
 
-[![Profile Views](https://img.shields.io/endpoint?url=https%3A%2F%2Fhits.dwyl.com%2Fikerfernandezmolano%2FApuntes-IngenieriaInformatica.json&style=flat-square&label=Visitas&color=orange)](https://github.com/ikerfernandezmolano/Apuntes-IngenieriaInformatica)
+[![HitCount](https://img.shields.io/endpoint?url=https%3A%2F%2Fhits.dwyl.com%2Fikerfernandezmolano%2FApuntes-IngenieriaInformatica.json&style=flat-square&label=Visitas&color=orange)](https://github.com/ikerfernandezmolano/Apuntes-IngenieriaInformatica)
 
 
