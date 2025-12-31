@@ -28,4 +28,5 @@ Este repositorio contiene apuntes personales, ejercicios resuletos y ejemplos de
 
 ---
 
-[![Profile Views](https://komarev.com/ghpvc/?username=ikerfernandezmolano&color=orange&style=plastic&label=Visitas)](https://github.com/ikerfernandezmolano)
+[![Profile Views](https://komarev.com/ghpvc/?username=ikerfernandezmolano&color=orange&style=plastic&label=Visitas&abbreviated=true&style=for-the-badge)](https://github.com/ikerfernandezmolano/Apuntes-IngenieriaInformatica)
+
