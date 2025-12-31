@@ -27,3 +27,5 @@ Este repositorio contiene apuntes personales, ejercicios resuletos y ejemplos de
 2. Usa este material como apoyo al estudio, no como sustituto de la enseñanza oficial
 
 ---
+
+[![Profile Views](https://komarev.com/ghpvc/?username=ikerfernandezmolano&color=orange&style=plastic&label=Visitas)](https://github.com/ikerfernandezmolano)
