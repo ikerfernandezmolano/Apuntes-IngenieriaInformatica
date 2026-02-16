@@ -1,0 +1,65 @@
+#Generar un par de claves públicas y privadas SSH
+ssh-keygen -t ed25519 -C "ikerfernandezmolano@gmail.com"
+
+#Generar un par de claves GPG
+gpg --generate-key
+gpg --generate-full-key
+
+#Listar claves GPG
+gpg --list-keys
+gpg --list-secret-keys
+
+#Importar clave 
+gpg --import clave.asc
+
+#Exportar clave
+gpg --export --armor ID > clave.asc
+
+#Encriptar
+gpg --encrypt --armor --sign --recipient correo@gmail.com archivo
+
+#Descifrar
+gpg --decrypt archivo.asc > archivo
+
+#Cambiar confianza
+gpg --import clave.asc
+gpg --edit-key ID
+trust
+num
+save
+
+#Verificar repositorio ajeno
+git clone URL
+cd dir
+git show --show-signature <HASH>
+
+#Verificar commit tuyo
+git config --global user.signingkey ID
+git config --global commit.gpgsign true
+git commit -S -m "Mensaje"
+git add archivo
+git push
+
+#Instalar apache
+sudo apt-get install apache2
+
+#Index
+nano /var/www/misite/index.html
+
+#Generar certificado de autofirmado OpenSSL
+sudo openssl req -x509 -nodes -days 365 \
+    -newkey rsa:2048
+    -keyout /etc/ssl/private/misite.key \
+    -out /etc/ssl/certs/misite.crt
+
+#HTTP > HTTPS
+nano /etc/apache2/sites-available/misite.conf
+
+sudo a2enmod ssl
+sudo a2enmod rewrite
+sudo a2ensite misite.conf
+sudo systemctl restart apache2
+
+#Compartir certificado e importar
+scp usuario@ip:carpeta/donde/esta ~
+Configuración > Seguridad > Certificados > Importar
