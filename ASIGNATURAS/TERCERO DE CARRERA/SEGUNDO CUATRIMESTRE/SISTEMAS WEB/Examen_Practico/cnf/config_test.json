@@ -1,0 +1,5 @@
+{
+    "data_file": "archivo.csv",
+    "model": "modelo.pkl",
+    "prediction": "columna_a_predecir"
+}
