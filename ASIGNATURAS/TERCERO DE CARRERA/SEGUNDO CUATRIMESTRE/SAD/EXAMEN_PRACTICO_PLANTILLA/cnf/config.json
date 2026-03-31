@@ -1,0 +1,41 @@
+{
+    "data_file": "archivo.csv",
+    "algorithm": "kNN",
+    "prediction": "columna_a_predecir",
+    "f_score": "macro",
+    "preprocessing": {
+        "sampling": "oversampling",
+        "scaler": "zscore",
+        "unique_category_threshold": 20,
+        "text_process": "tf-idf",
+        "language": "language",
+        "impute_num": "",
+        "impute_cat": ""
+    },
+    "kNN": {
+        "k": {
+            "kValues" : [],
+            "valueMin": 1,
+            "valueMax": 5,
+            "step": 2
+        },
+        "weights": ["distance"],
+        "p": [2]
+    },
+    "decision_tree": {
+        "max_depth": [],
+        "min_samples_split": [],
+        "min_samples_leaf": [],
+        "criterion": []
+    },
+    "random_forest": {
+        "n_estimators": [],
+        "max_depth": [],
+        "min_samples_split": [],
+        "min_samples_leaf": [],
+        "criterion": []
+    },
+    "naive_bayes": {
+        "alpha": []
+    }
+}
